@@ -6,7 +6,7 @@ global $current_user;
 wp_get_current_user();
 
 if ( $current_user->user_login == "Nanautzin" || $current_user->user_login == "Gotran" ) {
-    echo '<center><h1><a href="/test-trener-panel.php">Test PANEL</a></h1></center>';
+    echo '<center><h1><a href="../test-trener-panel">Test PANEL</a></h1></center>';
 }
 
 if ( ! is_user_logged_in() ) {
@@ -122,7 +122,7 @@ if ( ! is_user_logged_in() ) {
             foreach ( $team_results as $page )
             {
                 echo'<p style="text-align:center"><strong><span style="font-size:36px">Drużyna '.$team_num.'</span></strong></p>';
-                echo '<table id="tab_team">';
+                echo '<table class="tab_team">';
                 echo '<tr><td class="team_name_cell">'.strtoupper( $page->team ).'</td></tr>';
                 echo '<tr><td class="club_name_cell">'.strtoupper( $page->club ).'</td></tr>';
                 echo '<tr><td class="coach_cell">'.strtoupper( $page->coach ).'</td></tr>';
@@ -156,8 +156,6 @@ if ( ! is_user_logged_in() ) {
                 $team_num++;
             }
         }
-        
-        
     }
 
     function addTeam() {
@@ -290,7 +288,10 @@ if ( ! is_user_logged_in() ) {
         echo '<input type="hidden" name="doctor" value="'.$_POST['doctor'].'"/>';
         echo '<input type="hidden" name="manager" value="'.$_POST['manager'].'"/>';
         echo '<input type="hidden" name="director" value="'.$_POST['director'].'"/>';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr>';
+        echo '</table>'; 
         echo '</form>';  
     }
     
@@ -378,7 +379,7 @@ if ( ! is_user_logged_in() ) {
             echo '<p style="color:red;"><strong><span>'.$error_manager.'</span></strong></p>';
             echo '<br /><br />Podaj nazwisko i imie kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_director.'</span></strong></p>';
-            echo '<table id="tab_team">';
+            echo '<table class="tab_team">';
             echo '<tr><td><input type="submit" name="confirm_edit_team" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
             echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
             echo '</table>'; 
@@ -430,7 +431,9 @@ if ( ! is_user_logged_in() ) {
         echo '<input type="hidden" name="doctor" value="'.$_POST['doctor'].'"/>';
         echo '<input type="hidden" name="manager" value="'.$_POST['manager'].'"/>';
         echo '<input type="hidden" name="director" value="'.$_POST['director'].'"/>';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr>';
+        echo '</table>'; 
         echo '</form>';  
     }
 
@@ -479,7 +482,9 @@ if ( ! is_user_logged_in() ) {
         }
 
         echo '<form method="post">';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr>';
+        echo '</table>'; 
         echo '</form>'; 
     }
 
@@ -516,7 +521,7 @@ if ( ! is_user_logged_in() ) {
                             Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
         echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime( checkInjection( $insert_date ))).'"/> <br />';
        
-        echo '<table id="tab_team">';
+        echo '<table class="tab_team">';
         echo '<tr><td><input type="submit" name="confirm_add_player" class="team_button" value = "Dodaj zawodnika"/></td></tr>';
         echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
         echo '</table>';
@@ -563,7 +568,9 @@ if ( ! is_user_logged_in() ) {
         echo '<input type="hidden" name="player_surname" value="'.$_POST['player_surname'].'"/>';
         echo '<input type="hidden" name="dob_player" value="'.$_POST['dob_player'].'"/>';
         echo '<input type="hidden" name="tshirt_number" value="'.$_POST['tshirt_number'].'"/>';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr>';
+        echo '</table>'; 
         echo '</form>';  
     }
 
@@ -611,7 +618,7 @@ if ( ! is_user_logged_in() ) {
                                // '.date("Y-m-d", strtotime('+1 days')).'
             echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.generateDateForInputForm( $insert_date ).'"/> <br />';
             
-            echo '<table id="tab_team">';
+            echo '<table class="tab_team">';
             echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
             echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
             echo '</table>';
@@ -649,7 +656,10 @@ if ( ! is_user_logged_in() ) {
         echo '<input type="hidden" name="player_surname" value="'.$_POST['player_surname'].'"/>';
         echo '<input type="hidden" name="dob_player" value="'.$_POST['dob_player'].'"/>';
         echo '<input type="hidden" name="tshirt_number" value="'.$_POST['tshirt_number'].'"/>';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr>';
+        echo '</table>';
         echo '</form>';  
     }
 
@@ -691,8 +701,6 @@ if ( ! is_user_logged_in() ) {
         echo '<form method="post">';
 
         echo '<center><table style="width: 120px; height: 30px;"><tr><td class="button_team_cell"><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr></table><center>';
-
-        //echo '<center><input style="width: 120px; height: 30px;" type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></center>';
         echo '</form>'; 
 
     }
@@ -897,13 +905,13 @@ if ( ! is_user_logged_in() ) {
         echo '<input type="hidden" name="generate_data_size" value="'.$data_array_size.'"/>';
         echo '<input type="hidden" name="separator_generate_data" value="'.$separator_generate_data.'"/>';
 
-        echo '<table id="tab_team">';
+        echo '<table class="tab_team">';
         echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Generuj"/></td></tr>';
         echo '</table></form></tr>';
 
         echo '<tr><form method="post">';
-        echo '<table id="tab_team">';
-        echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Powrót"/></td></tr>';
+        echo '<table class="tab_team">';
+        echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Powrót"/></td></tr>';
         echo '</table></form></tr>';
         echo '</form></tr>';
     }

@@ -903,7 +903,7 @@ if ( ! is_user_logged_in() ) {
 
         echo '<tr><form method="post">';
         echo '<table id="tab_team">';
-        echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Powrót"/></td></tr>';
+        echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Powrót"/></td></tr>';
         echo '</table></form></tr>';
         echo '</form></tr>';
     }

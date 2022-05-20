@@ -1,6 +1,6 @@
 <style>
 
-  #tab_team {
+  table.tab_team {
     width: 280px;
     border-style: none ;
     margin-left: auto; 
