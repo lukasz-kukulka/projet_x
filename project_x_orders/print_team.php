@@ -24,6 +24,5 @@
       }
    }  
    getTeam();
-   addPlayer();
 ?>
 
