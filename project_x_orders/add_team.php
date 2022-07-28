@@ -1,4 +1,3 @@
-
 <?php
     global $wpdb;
     $user = wp_get_current_user()->display_name;
@@ -59,15 +58,4 @@
         header("Refresh:0");
     }
 
-    if(isset($_POST['add_team'])) {
-        addTeam();
-    }
-    if(isset($_POST['edit_team'])) {
-        editTeam();
-    }
-    if(isset($_POST['confirm'])) {
-        confirmAddTeam();
-    }
-
-    
 ?>
