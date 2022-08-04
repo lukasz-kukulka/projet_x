@@ -1,17 +1,30 @@
 
 <?php
-    echo'<form method="post">
-        <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
-        <input type="submit" name="edit_team" class="button" value="Edytuj drużynę">
-    </form>';
+    global $wpdb;
     $user = wp_get_current_user()->display_name;
+
+    $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
+    $results = $wpdb->get_results($query);
+
+    if ( count($results) != 100 && !isset($_POST['add_team']))
+    {
+        echo'<form method="post">
+            <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
+        </form>';
+        if ( isset($_POST['add_team']) )
+        {
+            header("Refresh:0");
+        }
+    }
+
     function addTeam() {
+        $user = wp_get_current_user()->display_name;
         echo '<form method="post">';
-        echo '<br /><br />Nazwa drużyny<input type="text" name="team" /> <br />';
-        echo '<br /><br />Nazwa klubu<input type="text" name="club" /> <br />';
-        echo '<br /><br />Podaj imie i nazwisko trenera(jeżeli to ty, zostaw puste)<input type="text" name="trener" value=""/> <br />';
-        echo '<br /><br />Podaj imie i nazwisko menagera(jeżeli to ty, zostaw puste)<input type="text" name="manager" /> <br />';
-        echo '<br /><br />kierownika<input type="text" name="director" /> <br />';
+        echo '<br /><br />Nazwa drużyny<input type="text" name="team" value=""/> <br />';
+        echo '<br /><br />Nazwa klubu<input type="text" name="club" value="" /> <br />';
+        echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="trener" value="'.$user.'"/> <br />';
+        echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$user.'"/> <br />';
+        echo '<br /><br />kierownika<input type="text" name="director" value="'.$user.'"/> <br />';
 		echo '<input type="submit" name="confirm" class="button" value = "Dodaj"/>';
 	    echo '</form>';
     }
@@ -58,8 +71,3 @@
 
     
 ?>
-  
-<form method="post">
-    <input type="submit" name="add_team" class="button" value = "Dodaj drużynę"/>
-    <input type="submit" name="edit_team" class="button" value = "Edytuj drużynę"/>
-</form>

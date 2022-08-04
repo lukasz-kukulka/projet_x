@@ -79,7 +79,7 @@ VALUES (NULL, 'NANAUTZIN_TEAM', 'NANAUTZIN_KLUB', '2022-08-29', 'Nanautzin', 'Na
 
 kreator trener menager kierownik 
 
-
+<input type="submit" name="edit_team" class="button" value="Edytuj drużynę">
 
 
 

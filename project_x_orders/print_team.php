@@ -5,8 +5,6 @@
 
         $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
         $results = $wpdb->get_results($query);
-        $table_name =  'project_x_team'; 
-        $teams = $wpdb->get_results("SELECT * FROM `project_x_team` WHERE `kreator` = 'Nanautzin'" );
 
         foreach ( $results as $page )
         {
