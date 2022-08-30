@@ -135,7 +135,11 @@
     }
 
     function addPlayer ( $team_results ) {
-        
+        //TO_DO
+    }
+
+    function confirmAddPlayer ( $team_results ) {
+        //TO_DO
     }
 
     function buttonsConditions( $team_results ) {
@@ -160,6 +164,15 @@
         if(isset($_POST['cancel_delete_team'])) {
             header("Refresh:0");
         }
+        if(isset($_POST['cancel_add_player'])) {
+            header("Refresh:0");
+        }
+        if(isset($_POST['confirm_add_player'])) {
+            header("Refresh:0");
+        }
+        if(isset($_POST['confirm_add_player'])) {
+            addPlayer( $team_results );
+        }
 
         if ( count($team_results) != 1 && 
              !isset($_POST['add_team']) && 
@@ -168,6 +181,8 @@
              !isset($_POST['delete']) &&
              !isset($_POST['confirm_delete_team']) &&
              !isset($_POST['cancel_delete_team']) &&
+             !isset($_POST['cancel_add_player']) &&
+             !isset($_POST['confirm_add_player']) &&
              !isset($_POST['confirm_edit_team']) )
         {
             echo'<form method="post">
