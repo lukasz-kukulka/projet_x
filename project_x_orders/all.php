@@ -134,6 +134,10 @@
         header("Refresh:0");
     }
 
+    function addPlayer ( $team_results ) {
+        
+    }
+
     function buttonsConditions( $team_results ) {
         if(isset($_POST['add_team'])) {
             addTeam();
