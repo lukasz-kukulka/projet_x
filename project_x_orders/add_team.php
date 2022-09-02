@@ -1,5 +1,9 @@
 
 <?php
+    echo'<form method="post">
+        <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
+        <input type="submit" name="edit_team" class="button" value="Edytuj drużynę">
+    </form>';
     $user = wp_get_current_user()->display_name;
     function addTeam() {
         echo '<form method="post">';
@@ -39,6 +43,7 @@
             'kierownik' => $_POST['director'])); 
 
         $wpdb->show_errors();
+        header("Refresh:0");
     }
 
     if(isset($_POST['add_team'])) {
