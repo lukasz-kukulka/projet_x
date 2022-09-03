@@ -11,12 +11,7 @@
     $team_results = getTeamResult();
 
     function getTeam( $team_results ) {
-        $local = 'name';
-        global $wpdb;
-        $user = wp_get_current_user()->display_name;
-        $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
-        $results = $wpdb->get_results($query);
-        foreach ( $results as $page )
+        foreach ( $team_results as $page )
         {
             echo '<table>
             <tr><td>Data utworzenia drużyny :</td> <td>'.$page->data_utworzenia.'</td><td rowspan="0"> 
@@ -39,7 +34,6 @@
 	getTeam( $team_results );
 
     function addTeam() {
-        echo "Dodaj";
         $user = wp_get_current_user()->display_name;
         echo '<form method="post">';
         echo '<br /><br />Nazwa drużyny<input type="text" name="team" value=""/> <br />';
@@ -52,7 +46,6 @@
     }
     
     function confirmAddTeam() {
-        echo "Potwierdz dodaj drużynę";
         global $wpdb;
         $table_name =  'project_x_team'; 
         $user = wp_get_current_user()->display_name;
@@ -61,7 +54,6 @@
         if ( isset($_POST['trener']) ) {
             $trener = $_POST['trener'];
         }
-        echo $trener;
 
         $wpdb->insert($table_name, array(
             'id' => NULL, 
@@ -77,14 +69,9 @@
         header("Refresh:0");
     }
 
-
-    //$results = getTeamResult();
     function editTeam( $team_results ) {
-        echo "Edytuj drużynę";
-        
         foreach ( $team_results as $page )
         {
-            //$GLOBALS['team_id_read'] = $page->id;
             echo '<form method="post">';
             echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$page->druzyna.'"/> <br />';
             echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$page->klub.'" /> <br />';
@@ -97,7 +84,6 @@
     }
 
     function confirmEditTeam( $team_results ) {
-        echo "Potwierdz edycję";
         $id_team = 0;
         global $wpdb;
 
@@ -127,7 +113,6 @@
 
     function deleteTeam( $team_results ) {
         echo '<form method="post">';
-        echo '<br />';
         echo '<table><tr>
                 <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
                 <td><input type="submit" name="confirm_delete_team" class="button" value = "Usuń"/>
@@ -137,8 +122,17 @@
     }
 
     function confirmDeleteTeam( $team_results ) {
+        global $wpdb;
+        $id_team = 0;
 
-    }  
+        foreach ( $team_results as $page )
+        { 
+            $id_team = $page->id;
+        }
+
+        $wpdb->delete( 'project_x_team', array( 'id' => $id_team) );
+        header("Refresh:0");
+    }
 
     function buttonsConditions( $team_results ) {
         if(isset($_POST['add_team'])) {
@@ -168,7 +162,8 @@
              !isset($_POST['edit_team']) &&
              !isset($_POST['confirm']) &&
              !isset($_POST['delete']) &&
-             !isset($_POST['confirm_del_team']) &&
+             !isset($_POST['confirm_delete_team']) &&
+             !isset($_POST['cancel_delete_team']) &&
              !isset($_POST['confirm_edit_team']) )
         {
             echo'<form method="post">
