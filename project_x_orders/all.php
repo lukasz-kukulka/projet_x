@@ -84,7 +84,7 @@
         
         foreach ( $team_results as $page )
         {
-            $GLOBALS['team_id_read'] = $page->id;
+            //$GLOBALS['team_id_read'] = $page->id;
             echo '<form method="post">';
             echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$page->druzyna.'"/> <br />';
             echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$page->klub.'" /> <br />';
@@ -122,15 +122,23 @@
                              'kierownik' => $kierownik
                       ), 
                       array( 'id' => $id_team ) );
+        header("Refresh:0");
     }
 
     function deleteTeam( $team_results ) {
-        
+        echo '<form method="post">';
+        echo '<br />';
+        echo '<table><tr>
+                <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
+                <td><input type="submit" name="confirm_delete_team" class="button" value = "Usuń"/>
+                    <input type="submit" name="cancel_delete_team" class="button" value = "Anuluj"/></td>
+            </tr></table>';
+        echo '</form>';
     }
 
     function confirmDeleteTeam( $team_results ) {
 
-    }    
+    }  
 
     function buttonsConditions( $team_results ) {
         if(isset($_POST['add_team'])) {
@@ -148,8 +156,11 @@
         if(isset($_POST['confirm_edit_team'])) {
             confirmEditTeam( $team_results );
         }
-        if(isset($_POST['confirm_del_team'])) {
+        if(isset($_POST['confirm_delete_team'])) {
             confirmDeleteTeam( $team_results );
+        }
+        if(isset($_POST['cancel_delete_team'])) {
+            header("Refresh:0");
         }
 
         if ( count($team_results) != 1 && 
