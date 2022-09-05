@@ -22,9 +22,9 @@
             <tr><td>Data utworzenia drużyny :</td> <td>'.$page->data_utworzenia.'</td><td rowspan="0"> 
             <form method="post">
             <input type="submit" name="edit_team" class="button" value = "Edytuj"/><br/>
-            <input type="submit" name="usun" class="button" value = "Usuń"/><br/>
-            <input type="submit" name="dodaj" class="button" value = "Dodaj zawodnika"/><br/>
-            <input type="submit" name="raport" class="button" value = "Generuj raport"/><br/>
+            <input type="submit" name="delete" class="button" value = "Usuń"/><br/>
+            <input type="submit" name="add_player" class="button" value = "Dodaj zawodnika"/><br/>
+            <input type="submit" name="generate_raport" class="button" value = "Generuj raport"/><br/>
             </form>
             </td></tr>
             <tr><td>Nazwa drużyny</td> <td>'.$page->druzyna. '</td></tr>
@@ -100,6 +100,7 @@
         echo "Potwierdz edycję";
         $id_team = 0;
         global $wpdb;
+
         foreach ( $team_results as $page )
         { 
             $id_team = $page->id;
@@ -123,6 +124,14 @@
                       array( 'id' => $id_team ) );
     }
 
+    function deleteTeam( $team_results ) {
+        
+    }
+
+    function confirmDeleteTeam( $team_results ) {
+
+    }    
+
     function buttonsConditions( $team_results ) {
         if(isset($_POST['add_team'])) {
             addTeam();
@@ -130,18 +139,26 @@
         if(isset($_POST['edit_team'])) {
             editTeam( $team_results );
         }
+        if(isset($_POST['delete'])) {
+            deleteTeam( $team_results );
+        }
         if(isset($_POST['confirm'])) {
             confirmAddTeam( $team_results );
         }
         if(isset($_POST['confirm_edit_team'])) {
             confirmEditTeam( $team_results );
         }
+        if(isset($_POST['confirm_del_team'])) {
+            confirmDeleteTeam( $team_results );
+        }
 
         if ( count($team_results) != 1 && 
              !isset($_POST['add_team']) && 
              !isset($_POST['edit_team']) &&
              !isset($_POST['confirm']) &&
-             !isset($_POST['confirm_edit_team']))
+             !isset($_POST['delete']) &&
+             !isset($_POST['confirm_del_team']) &&
+             !isset($_POST['confirm_edit_team']) )
         {
             echo'<form method="post">
                 <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
