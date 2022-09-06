@@ -91,7 +91,7 @@
             echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="trener" value="'.$page->trener.'"/> <br />';
             echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$page->menager.'"/> <br />';
             echo '<br /><br />kierownika<input type="text" name="director" value="'.$page->kierownik.'"/> <br />';
-            echo '<input type="submit" name="confirm_edit_team" class="button" value = "confirm_edit_team"/>';
+            echo '<input type="submit" name="confirm_edit_team" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '</form>';
         }
     }
