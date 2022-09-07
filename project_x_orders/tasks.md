@@ -9,5 +9,4 @@ DRUZYNA
 - edytuj zawodnika
 - tylko jedna druzyna weryfikacja
 
-
 GENRUJ RAPORT
