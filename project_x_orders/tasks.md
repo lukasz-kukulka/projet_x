@@ -1,4 +1,5 @@
 DRUZYNA
+- komunitkat i sprawdzanie czy dodało druzyne
 - potwierdz edytuj druzyne
 - usun
 - potwierdz usun

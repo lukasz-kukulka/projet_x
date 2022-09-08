@@ -1,3 +1,6 @@
+<?php
+
+
 function getTeam() {
       global $wpdb;
       $user = wp_get_current_user()->display_name;
@@ -83,8 +86,15 @@ function getTeam() {
     }
 
     function confirmEditTeam() {
-        
-
+        echo "Potwierdz edycje";
+        global $wpdb;
+        $table_name =  'project_x_team'; 
+        $tema_name = $_POST['team'];
+        $club = $_POST['club'];
+        $edit_date = date('Y-m-d H:i:s');
+        $trener = $_POST['club'];
+        $menager = $_POST['manager'];
+        $kierownik = $_POST['kierownik'];
     }
 
     function buttonsConditions( $results ) {
@@ -116,3 +126,8 @@ function getTeam() {
         }
     }
     buttonsConditions( $results );
+
+
+
+
+?>
