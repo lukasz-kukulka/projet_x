@@ -21,9 +21,8 @@ function getTeam() {
           <tr><td>Imię i nazwisko kierownika :</td> <td>'.$page->kierownik.'</td></tr>
           </table><br/><br/>';
       }
-   }  
-   getTeam();
-
+   }
+	getTeam();
 	    function addTeam() {
         $user = wp_get_current_user()->display_name;
         echo '<form method="post">';
@@ -64,6 +63,30 @@ function getTeam() {
         header("Refresh:0");
     }
 
+    function editTeam() {
+        echo "Edytuj drużynę";
+        global $wpdb;
+        $user = wp_get_current_user()->display_name;
+        $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
+        $results = $wpdb->get_results($query);
+        foreach ( $results as $page )
+        {
+            echo '<form method="post">';
+            echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$page->druzyna.'"/> <br />';
+            echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$page->klub.'" /> <br />';
+            echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="trener" value="'.$page->trener.'"/> <br />';
+            echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$page->menager.'"/> <br />';
+            echo '<br /><br />kierownika<input type="text" name="director" value="'.$page->kierownik.'"/> <br />';
+            echo '<input type="submit" name="confirm" class="button" value = "Confirm_edit_team"/>';
+            echo '</form>';
+        }
+    }
+
+    function confirmEditTeam() {
+        
+
+    }
+
     function buttonsConditions( $results ) {
         
         if(isset($_POST['add_team'])) {
@@ -76,7 +99,11 @@ function getTeam() {
             confirmAddTeam();
         }
 
-        if ( count($results) != 100 && !isset($_POST['add_team']))
+        if(isset($_POST['Confirm_edit_team'])) {
+            confirmEditTeam();
+        }
+
+        if ( count($results) != 100 && !isset($_POST['add_team']) && !isset($_POST['edit_team']))
         {
             echo'<form method="post">
                 <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
