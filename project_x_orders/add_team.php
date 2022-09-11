@@ -1,9 +1,4 @@
 <?php
-    global $wpdb;
-    $user = wp_get_current_user()->display_name;
-
-    $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
-    $results = $wpdb->get_results($query);
     
     function addTeam() {
         $user = wp_get_current_user()->display_name;

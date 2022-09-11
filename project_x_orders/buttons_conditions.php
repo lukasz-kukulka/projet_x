@@ -19,8 +19,10 @@
             if ( isset($_POST['add_team']) )
             {
                 header("Refresh:0");
+                addTeam();
             }
         }
     }
     buttonsConditions( $results );
+
 ?>
