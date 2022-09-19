@@ -34,6 +34,7 @@
 	getTeam( $team_results );
 
     function addTeam() {
+        echo "add team";
         $user = wp_get_current_user()->display_name;
         echo '<form method="post">';
         echo '<br /><br />Nazwa drużyny<input type="text" name="team" value=""/> <br />';
@@ -46,6 +47,7 @@
     }
     
     function confirmAddTeam() {
+        echo "confirm add team";
         global $wpdb;
         $table_name =  'project_x_team'; 
         $user = wp_get_current_user()->display_name;
@@ -70,6 +72,7 @@
     }
 
     function editTeam( $team_results ) {
+        echo "edit team";
         foreach ( $team_results as $page )
         {
             echo '<form method="post">';
@@ -84,6 +87,7 @@
     }
 
     function confirmEditTeam( $team_results ) {
+        echo "confirm edit team";
         $id_team = 0;
         global $wpdb;
 
@@ -112,6 +116,7 @@
     }
 
     function deleteTeam( $team_results ) {
+        echo "delete team";
         echo '<form method="post">';
         echo '<table><tr>
                 <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
@@ -122,6 +127,7 @@
     }
 
     function confirmDeleteTeam( $team_results ) {
+        echo "confirm delete team";
         global $wpdb;
         $id_team = 0;
 
@@ -135,34 +141,78 @@
     }
 
     function addPlayer ( $team_results ) {
-        //TO_DO
-        // echo '<form method="post">';
-        // echo '<br /><br />Imię gracza<input type="player_name" name="team" value=""/> <br />';
-        // echo '<br /><br />Nazwisko gracza<input type="player_surname" name="team" value=""/> <br />';
-        // echo '<br /><br />Nazwa klubu<input type="text" name="club" value="" /> <br />';
-        // echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="coach" value="'.$user.'"/> <br />';
-        // echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$user.'"/> <br />';
-        // echo '<br /><br />kierownika<input type="text" name="director" value="'.$user.'"/> <br />';
-        // echo '<input type="submit" name="confirm" class="button" value = "Dodaj"/>';
-        // echo '</form>';
+        
+        echo '<form method="post">';
+        echo '<br /><br />Imię gracza<input type="text" name="player_name" value="Imie"/> <br />';
+        echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="Nazwisko"/> <br />';
+        echo '<br /><br />Numer koszulki<input type="text" name="tshirt_number" value="0"/> <br />';
+        echo '<br /><br />Data urodzenia w formacie: RRRR-MM-DD <input type="text" name="dob_player" value="2020-01-01"/> <br />';
+        echo '<br /><br />Numer PESEL<input type="text" name="pesel" value="45020277898"/> <br />';
+        echo '<input type="submit" name="confirm_add_player" class="button" value = "Dodaj zawodnika"/>';
+        echo '<input type="submit" name="cancel_add_player" class="button" value = "Anuluj"/>';
+        echo '</form>';
     }
 
     function confirmAddPlayer ( $team_results ) {
-        //TO_DO
+        echo "confirm add player";
+        global $wpdb;
+        $table_name = 'project_x_trener_team'; 
+        $date = date('Y-m-d H:i:s');
+        $id_team = 0;
+
+        foreach ( $team_results as $page )
+        { 
+            $id_team = $page->id;
+        }
+
+        $wpdb->insert($table_name, array(
+            'id' => NULL, 
+            'create_date' => $date, 
+            'name' => $_POST['player_name'], 
+            'surname' => $_POST['player_surname'],
+            'dob' => $_POST['dob_player'],
+            'pesel' => $_POST['pesel'],
+            'tshirt_number' => $_POST['tshirt_number'],
+            'is_player_exist' => NULL,
+            'id_existing_account' => 0, 
+            'is_player' => NULL, 
+            'is_coach' => NULL, 
+            'is_director' => NULL, 
+            'is_manager' => NULL,
+            'team_id' => $id_team
+            ) ); 
+            //INSERT INTO `project_x_trener_team` (`id`, `create_date`, `name`, `surname`, `dob`, 
+            // `pesel`, `tshirt_number`, `is_player_exist`, `id_existing_account`, `is_player`, 
+            // `is_coach`, `is_director`, `is_manager`) VALUES 
+            // (NULL, '2022-09-19 15:33:10.000000', 'wwww', 'wwww', '2022-02-02', '2', '22', NULL, '0', NULL, NULL, NULL, NULL); 
+
+    }
+
+    function showPlayers( $team_results ) {
+
     }
 
     function buttonsConditions( $team_results ) {
+        echo "BUTTONS";
+        function clean_data($data) {
+            $data = trim($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+
         if(isset($_POST['add_team'])) {
             addTeam();
         }
         if(isset($_POST['edit_team'])) {
             editTeam( $team_results );
+
         }
         if(isset($_POST['delete'])) {
             deleteTeam( $team_results );
         }
         if(isset($_POST['confirm'])) {
             confirmAddTeam( $team_results );
+            clean_data($_POST['confirm']);
         }
         if(isset($_POST['confirm_edit_team'])) {
             confirmEditTeam( $team_results );
@@ -177,7 +227,7 @@
             header("Refresh:0");
         }
         if(isset($_POST['confirm_add_player'])) {
-            header("Refresh:0");
+            confirmAddPlayer ( $team_results );
         }
         if(isset($_POST['add_player'])) {
             addPlayer( $team_results );
@@ -192,7 +242,8 @@
              !isset($_POST['cancel_delete_team']) &&
              !isset($_POST['cancel_add_player']) &&
              !isset($_POST['confirm_add_player']) &&
-             !isset($_POST['confirm_edit_team']) )
+             !isset($_POST['confirm_edit_team']) &&
+             !isset($_POST['add_player']) )
         {
             echo'<form method="post">
                 <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
