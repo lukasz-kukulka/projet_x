@@ -1,6 +1,7 @@
 <?php
 
     function getTeamResult() {
+        echo "RESULTS";
         global $wpdb;
         $user = wp_get_current_user()->display_name;
         $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `creator` = %s", $user );
@@ -30,8 +31,6 @@
             </table><br/><br/>';
         }
     }
-
-	getTeam( $team_results );
 
     function addTeam() {
         echo "add team";
@@ -67,7 +66,6 @@
             'manager' => $_POST['manager'],
             'director' => $_POST['director'])); 
 
-        $wpdb->show_errors();
         header("Refresh:0");
     }
 
@@ -194,55 +192,49 @@
 
     function buttonsConditions( $team_results ) {
         echo "BUTTONS";
-        function clean_data($data) {
-            $data = trim($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-
+        
         if(isset($_POST['add_team'])) {
             addTeam();
         }
+        if(isset($_POST['confirm']) && count($team_results) < 1) {
+            confirmAddTeam();
+            echo "conditions</br>";
+        }
         if(isset($_POST['edit_team'])) {
             editTeam( $team_results );
-
-        }
-        if(isset($_POST['delete'])) {
-            deleteTeam( $team_results );
-        }
-        if(isset($_POST['confirm'])) {
-            confirmAddTeam( $team_results );
-            clean_data($_POST['confirm']);
         }
         if(isset($_POST['confirm_edit_team'])) {
             confirmEditTeam( $team_results );
         }
-        if(isset($_POST['confirm_delete_team'])) {
-            confirmDeleteTeam( $team_results );
-        }
-        if(isset($_POST['cancel_delete_team'])) {
-            header("Refresh:0");
-        }
-        if(isset($_POST['cancel_add_player'])) {
-            header("Refresh:0");
-        }
-        if(isset($_POST['confirm_add_player'])) {
-            confirmAddPlayer ( $team_results );
-        }
-        if(isset($_POST['add_player'])) {
-            addPlayer( $team_results );
-        }
+        // if(isset($_POST['delete'])) {
+        //     deleteTeam( $team_results );
+        // }
+        // if(isset($_POST['confirm_delete_team'])) {
+        //     confirmDeleteTeam( $team_results );
+        // }
+        // if(isset($_POST['cancel_delete_team'])) {
+        //     header("Refresh:0");
+        // }
+        // if(isset($_POST['cancel_add_player'])) {
+        //     header("Refresh:0");
+        // }
+        // if(isset($_POST['confirm_add_player'])) {
+        //     confirmAddPlayer ( $team_results );
+        // }
+        // if(isset($_POST['add_player'])) {
+        //     addPlayer( $team_results );
+        // }
 
         if ( count($team_results) != 1 && 
              !isset($_POST['add_team']) && 
              !isset($_POST['edit_team']) &&
              !isset($_POST['confirm']) &&
-             !isset($_POST['delete']) &&
-             !isset($_POST['confirm_delete_team']) &&
-             !isset($_POST['cancel_delete_team']) &&
-             !isset($_POST['cancel_add_player']) &&
-             !isset($_POST['confirm_add_player']) &&
-             !isset($_POST['confirm_edit_team']) &&
+            // !isset($_POST['delete']) &&
+            //  !isset($_POST['confirm_delete_team']) &&
+            //  !isset($_POST['cancel_delete_team']) &&
+            //  !isset($_POST['cancel_add_player']) &&
+            //  !isset($_POST['confirm_add_player']) &&
+            //  !isset($_POST['confirm_edit_team']) &&
              !isset($_POST['add_player']) )
         {
             echo'<form method="post">
@@ -254,6 +246,8 @@
                 addTeam();
             }
         }
+        getTeam( $team_results );
+        header("Refresh:0");
     }
 
     buttonsConditions( $team_results );
