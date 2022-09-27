@@ -4,18 +4,7 @@
 
     $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `kreator` = %s", $user );
     $results = $wpdb->get_results($query);
-
-    if ( count($results) != 100 && !isset($_POST['add_team']))
-    {
-        echo'<form method="post">
-            <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
-        </form>';
-        if ( isset($_POST['add_team']) )
-        {
-            header("Refresh:0");
-        }
-    }
-
+    
     function addTeam() {
         $user = wp_get_current_user()->display_name;
         echo '<form method="post">';
@@ -27,9 +16,7 @@
 		echo '<input type="submit" name="confirm" class="button" value = "Dodaj"/>';
 	    echo '</form>';
     }
-    function editTeam() {
-        echo "Edytuj drużynę";
-    }
+    
     function confirmAddTeam() {
         echo "Potwierdz drużynę";
         global $wpdb;
