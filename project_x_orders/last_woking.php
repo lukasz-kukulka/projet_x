@@ -731,9 +731,9 @@ if ( is_user_logged_in() ){
         echo '<p style="text-align:center"><label><input type="radio" id="raport" name="raport_type" value="goscie" checked="checked" ><strong><span style="font-size:24px"> Protokół dla gości </span></strong></label>';
         echo '<label><input type="radio" id="raport" name="raport_type" value="gospodarze"><strong><span style="font-size:24px"> Protokół dla gospodarzy</span></strong></label></p>';        
 
-        echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime('+1 days')).'"/> <br />';
+        echo '<br /><br />Data spotkania: <input style="color:black" type="date" name="event_date" value="'.date("Y-m-d", strtotime('+1 days')).'"/> <br />';
         echo '<br />Nazwisko i imie trenera<input type="text" name="coach" value="'.$_POST['coach'].'" maxlength="30"/> <br />';
-        echo '<br />Numer licencji trenera<input type="text" name="coach_license" value="'.$_POST['coach_license'].'" maxlength="9"/> <br />';
+        echo '<br />Numer licencji trenera<input type="text" name="coach_license" value="'.$_POST['coach_license'].'" minlength="9" maxlength="9"/> <br />';
         echo '<br />Nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$_POST['second_coach'].'" maxlength="30"/> <br />';
         echo '<br />Nazwisko i imie masażysty<input type="text" name="masseur" value="'.$_POST['masseur'].'" maxlength="30"/> <br />';
         echo '<br />Nazwisko i imie lekarza<input type="text" name="doctor" value="'.$_POST['doctor'].'" maxlength="30"/> <br />';
@@ -1061,6 +1061,5 @@ if ( is_user_logged_in() ){
     }
     buttonsConditions( $team_results );
 }
-
 
 ?>
