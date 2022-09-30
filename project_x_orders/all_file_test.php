@@ -489,7 +489,6 @@ if ( is_user_logged_in() ){
             $insert_surname = $player->surname;
             $insert_tshirt = $player->tshirt_number;
             $insert_date = $player->dob;
-            $id_team = $_POST['id'];
             $name_error = "";
             $surname_error = "";
             //var_dump( $insert_date );
@@ -498,7 +497,6 @@ if ( is_user_logged_in() ){
                 $insert_surname = $_POST['player_surname'];
                 $insert_tshirt = $_POST['tshirt_number'];
                 $insert_date = $_POST['dob_player'];
-                $id_team = $_POST['id_team'];
                 if ( $_SESSION['error_name'] != "TRUE") {
                     $name_error = $_SESSION['error_name'].'</br>';
                 }
@@ -508,7 +506,7 @@ if ( is_user_logged_in() ){
             }
 
             echo '<form method="post">';
-            echo '<input type="hidden" name="id_player" value="'.$id_team.'"/>';
+            echo '<input type="hidden" name="player_id" value="'.$_POST['player_id'].'"/>';
             echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="30" size="50"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
             echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="40" size="60"/> <br />';
@@ -534,19 +532,15 @@ if ( is_user_logged_in() ){
                              'dob' => date("d/m/y", strtotime( checkInjection( $_POST['dob_player'] ))),
                              'tshirt_number' => checkInjection( $_POST['tshirt_number'] )
                       ), 
-                      array( 'id' => $_POST['id_player'] ) );
+                      array( 'id' => $_POST['player_id'] ) );
 
-        $query = $wpdb->prepare("SELECT * FROM `$table_name` WHERE `id` = %s", $_POST['id_player'] );
+        $query = $wpdb->prepare("SELECT * FROM `$table_name` WHERE `id` = %s", $_POST['player_id'] );
         $player_results = $wpdb->get_results($query);
         $button_name = "cancel_refresh";
         foreach ( $player_results as $player ) {
-            if ( $player->name == $_POST['player_name'] && $player->surname == $_POST['player_surname'] && $player->dob == $_POST['dob_player'] ) {
-                echo"ALL OK</br></br></br></br></br></br></br>";
-                var_dump( $_POST );
+            if ( $player->name != $_POST['player_name'] || $player->surname != $_POST['player_surname'] || $player->dob != $_POST['dob_player'] ) {
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik zedytowany poprawnie</span></strong></p>';
             } else {
-                echo"ERROR</br></br></br></br></br></br></br>";
-                var_dump( $_POST );
                 $button_name = "edit_team";
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
             }
@@ -558,7 +552,6 @@ if ( is_user_logged_in() ){
         echo '<input type="hidden" name="tshirt_number" value="'.$_POST['tshirt_number'].'"/>';
         echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
         echo '</form>';  
-        //refresh();
     }
 
     function deletePlayer() {
@@ -574,8 +567,21 @@ if ( is_user_logged_in() ){
 
     function confirmDeletePlayer() {
         global $wpdb;
-        $wpdb->delete( 'project_x_trener_team', array( 'id' => $_POST['id_player'] ) );
-        refresh();
+        $table_name = 'project_x_trener_team'; 
+        $wpdb->delete( $table_name, array( 'id' => $_POST['id_player'] ) );
+        $query = $wpdb->prepare("SELECT * FROM `$table_name` WHERE `id` = %s", $_POST['id_player'] );
+        $button_name = "cancel_refresh";
+
+        if ( count ( $wpdb->get_results($query) ) ) {
+            echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
+        } else {
+            echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik został usunięty</span></strong></p>';
+        }
+
+        echo '<form method="post">';
+        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '</form>'; 
+
     }
     
     function generateVariableForRaport( $separator_generate_data ) {
@@ -978,6 +984,17 @@ if ( is_user_logged_in() ){
                 unset($_SESSION);
                 confirmEditTeam( $team_results );
             }
+        } else if(isset($_POST['confirm_edit_player'])) {
+            if ( validationAddPlayer() == "ERROR" ) {
+                editPlayer();
+            } else {
+                unset($_SESSION);
+                confirmEditPlayer();
+            }
+        } else if(isset($_POST['confirm_delete_team'])) {
+            confirmDeleteTeam( $team_results );
+        } else if(isset($_POST['confirm_delete_player'])) {
+            confirmDeletePlayer();
         } else if(isset($_POST['add_player'])) {
             addPlayer();
         } else if(isset($_POST['edit_team'])) {
@@ -996,15 +1013,8 @@ if ( is_user_logged_in() ){
         if(isset($_POST['delete'])) {
             deleteTeam();
         }
-        if(isset($_POST['confirm_delete_team'])) {
-            confirmDeleteTeam( $team_results );
-        }
-        if(isset($_POST['confirm_edit_player'])) {
-            confirmEditPlayer();
-        }
-        if(isset($_POST['confirm_delete_player'])) {
-            confirmDeletePlayer();
-        }
+        
+        
         if(isset($_POST['cancel_refresh'])) {
             unset($_SESSION);
             refresh();
