@@ -492,7 +492,7 @@ if ( is_user_logged_in() ){
             $id_team = $_POST['id'];
             $name_error = "";
             $surname_error = "";
-
+            //var_dump( $insert_date );
             if ( isset( $_SESSION ) ) {
                 $insert_name = $_POST['player_name'];
                 $insert_surname = $_POST['player_surname'];
@@ -541,9 +541,12 @@ if ( is_user_logged_in() ){
         $button_name = "cancel_refresh";
         foreach ( $player_results as $player ) {
             if ( $player->name == $_POST['player_name'] && $player->surname == $_POST['player_surname'] && $player->dob == $_POST['dob_player'] ) {
+                echo"ALL OK</br></br></br></br></br></br></br>";
                 var_dump( $_POST );
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik zedytowany poprawnie</span></strong></p>';
             } else {
+                echo"ERROR</br></br></br></br></br></br></br>";
+                var_dump( $_POST );
                 $button_name = "edit_team";
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
             }
