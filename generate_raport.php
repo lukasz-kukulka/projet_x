@@ -26,19 +26,44 @@ function generateArrayData() {
     global $post_array_data;
     global $separator_generate_data;
     $row_array_generate_data = getPostDataToGenerateArray();
-    var_dump($row_array_generate_data);
+    $new_complete_generator_data = array();
     foreach( $row_array_generate_data as $one_line ) {
+        echo $row_array_generate_data;
         $iterator = 0;
         $tshirt = "";
         $name = array();
         $dob = array();
-        while ( $one_line[ $iterator ] == $separator_generate_data ) {
 
+        while ( $one_line[ $iterator ] == $separator_generate_data ) {
+            $tshirt = $tshirt.$one_line[ $iterator ];
+            $iterator++;
+            //echo "iterator = "
         }
+
+        $iterator++;
+
+        while ( $one_line[ $iterator ] == $separator_generate_data ) {
+            array_push($name, $one_line[ $iterator ]);
+            $iterator++;
+        }
+
+        $iterator++;
+
+        while ( $one_line[ $iterator ] == $separator_generate_data ) {
+            if ( $one_line[ $iterator ] != '-' )
+            {
+                array_push($dob, $one_line[ $iterator ]);
+            }
+            $iterator++;
+        }
+
+        array_push($new_complete_generator_data, $tshirt, $name, $dob);
     }
+    return $new_complete_generator_data;
 }
 
-generateArrayData();
+//generateArrayData();
+//var_dump(generateArrayData());
 
 $pdf = new Fpdi();
 $pageCount = $pdf->setSourceFile('test.pdf');
