@@ -1,4 +1,6 @@
 <?php
+    $separator_generate_data = "|";
+
     function refresh() {
         ?>
         <script type="text/javascript">
@@ -328,7 +330,7 @@
     function generateVariableForRaport() {
 
         global $wpdb;
-
+        global $separator_generate_data;
 
         $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['team_id']);
 
@@ -337,11 +339,7 @@
         $players_array = array();
 
         foreach ( $players_results as $player ) {
-            $player_name = $player->tshirt_number.'|'.$player->name.' '.$player->surname.'|'.$player->dob;
-            // $single_record = new SingeRecordInReport();
-            // $single_record->generateName( $player_name );
-            // $single_record->generateDoB( $player->dob );
-            // $single_record->setTshirt( $player->tshirt_number );
+            $player_name = $player->tshirt_number.$separator_generate_data.$player->name.' '.$player->surname.$separator_generate_data.$player->dob;
             array_push($players_array, $player_name);
         }
 
@@ -350,6 +348,7 @@
 
     function generateRaportSummary() {
         global $wpdb;
+        global $separator_generate_data;
         $team_id_data = $_POST['id'];
         $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $team_id_data);
         $players_results = $wpdb->get_results($query);
@@ -370,22 +369,24 @@
                     </tr>';
             }
 
-        
-        //var_dump($generate_data);
-        //echo '<tr><form action="../generate_raport.php" method="post">
-        echo '<tr><form method="post">
-            <input type="hidden" name="team_id" value="'.$generate_data[0].'"/>
-            <input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
+        //echo '<tr><form method="post">';
+        echo '<tr><form action="../generate_raport.php" method="post">';
+        $data_array_size = count($generate_data);
+        for ($iterator = 0; $iterator < $data_array_size; $iterator++) {
+            echo '<input type="hidden" name="player_id'.$iterator.'" value="'.$generate_data[$iterator].'"/>';
+        }
+        echo '<input type="hidden" name="generate_data_size" value="'.$data_array_size.'"/>';
+        echo '<input type="hidden" name="separator_generate_data" value="'.$separator_generate_data.'"/>';
+        echo '<input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
         </form></tr>';
-
         echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
         echo '</table>';
         
     }
 
     function testFun() {
-        $sdsd = $_POST['team_id'];
-
+        $sdsd = $_POST['player_id0'];
+        $sdsd = $_POST['generate_data_size'];
         var_dump($sdsd);
     }
 
@@ -449,7 +450,7 @@
             generateRaportSummary();
         }
         if(isset($_POST['generate_raport_to_pdf'])) {
-            testFun();
+            //testFun();
         }
         if(isset($_POST['cancel_generate_raport_to_pdf'])) {
             refresh();
