@@ -28,7 +28,8 @@ function generateArrayData() {
     $row_array_generate_data = getPostDataToGenerateArray();
     $new_complete_generator_data = array();
     foreach( $row_array_generate_data as $one_line ) {
-        echo $row_array_generate_data;
+        var_dump($one_line);
+        echo"</br>";
         $iterator = 0;
         $tshirt = "";
         $name = array();
@@ -62,7 +63,7 @@ function generateArrayData() {
     return $new_complete_generator_data;
 }
 
-//generateArrayData();
+generateArrayData();
 //var_dump(generateArrayData());
 
 $pdf = new Fpdi();
