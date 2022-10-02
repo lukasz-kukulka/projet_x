@@ -332,7 +332,7 @@
         global $wpdb;
         global $separator_generate_data;
 
-        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['team_id']);
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['id']);
 
         $players_results = $wpdb->get_results($query);
         $distance_between_name_char = 4.0;
@@ -350,7 +350,9 @@
         global $wpdb;
         global $separator_generate_data;
         $team_id_data = $_POST['id'];
-        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $team_id_data);
+        echo $team_id_data."-------------------------------------------------------------------------";
+        //$query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = $team_id_data");
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $team_id_data );
         $players_results = $wpdb->get_results($query);
         $generate_data = generateVariableForRaport();
 
@@ -358,6 +360,8 @@
                 <tr><td>Numer koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data urodzenia</td><td>PESEL</td></tr>';
             foreach ( $players_results as $player )
             {
+                var_dump($player);
+                echo'</br>';
                 echo '
                     <tr>
                         <td>'.$player->tshirt_number.'</td>
