@@ -1,5 +1,4 @@
 <?php
-
     function refresh() {
         ?>
         <script type="text/javascript">
@@ -69,8 +68,6 @@
             echo'<p style="text-align:center"><strong><span style="font-size:36px">Drużyna</span></strong></p>';
         }
         
-        $link = 'https://w3docs.com';
-        //onclick = "window.location.href='.$link.';"
         foreach ( $team_results as $page )
         {
             echo '<table>
@@ -97,7 +94,7 @@
         }
     }
 
-    printTeam( $team_results );
+    
 
     function addTeam() {
         $user = wp_get_current_user()->display_name;
@@ -282,7 +279,136 @@
         refresh();
     }
 
+    // class SingeRecordInReport {
+    //     private $tshirt = 0;
+    //     private $name = array();
+    //     private $dob = array();
+    //     private $name_spacing = 4.0;
+    //     private $dob_spacing = 4.0;
+    
+    //     public function generateName( $name ) {
+    //         foreach ( str_split($name) as $char ) {
+    //             array_push($this->name, $char);
+    //         }
+    //     }
+    
+    //     public function generateDoB( $date ) {
+    //         foreach ( str_split($date) as $num) {
+    //             if ( $num != "-") {
+    //                 array_push($this->dob, $num);
+    //             }
+    //         }
+    //     }
+    
+    //     public function setTshirt( $num ) {
+    //         $this->tshirt = $num;
+    //     }
+    
+    //     public function getName() {
+    //         return $this->name;
+    //     }
+    
+    //     public function getTshirt() {
+    //         return $this->tshirt;
+    //     }
+    
+    //     public function getDoB() {
+    //         return $this->dob;
+    //     }
+    
+    //     public function getNameSpacing() {
+    //         return $this->name_spacing;
+    //     }
+    
+    //     public function getDoBSpacing() {
+    //         return $this->dob_spacing;
+    //     }
+    // }
+    
+    function generateVariableForRaport() {
+
+        global $wpdb;
+
+
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['team_id']);
+
+        $players_results = $wpdb->get_results($query);
+        $distance_between_name_char = 4.0;
+        $players_array = array();
+
+        foreach ( $players_results as $player ) {
+            $player_name = $player->tshirt_number.'|'.$player->name.' '.$player->surname.'|'.$player->dob;
+            // $single_record = new SingeRecordInReport();
+            // $single_record->generateName( $player_name );
+            // $single_record->generateDoB( $player->dob );
+            // $single_record->setTshirt( $player->tshirt_number );
+            array_push($players_array, $player_name);
+        }
+
+        return $players_array;
+    }
+
+    function generateRaportSummary() {
+        global $wpdb;
+        $team_id_data = $_POST['id'];
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $team_id_data);
+        $players_results = $wpdb->get_results($query);
+        $generate_data = generateVariableForRaport();
+
+        echo '<table>
+                <tr><td>Numer koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data urodzenia</td><td>PESEL</td></tr>';
+            foreach ( $players_results as $player )
+            {
+                echo '
+                    <tr>
+                        <td>'.$player->tshirt_number.'</td>
+                        <td>'.$player->name.'</td>
+                        <td>'.$player->surname.'</td>
+                        <td>'.$player->dob.'</td>
+                        <td>'.$player->pesel.'</td>
+                        </form>
+                    </tr>';
+            }
+
+        
+        //var_dump($generate_data);
+        //echo '<tr><form action="../generate_raport.php" method="post">
+        echo '<tr><form method="post">
+            <input type="hidden" name="team_id" value="'.$generate_data[0].'"/>
+            <input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
+        </form></tr>';
+
+        echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
+        echo '</table>';
+        
+    }
+
+    function testFun() {
+        $sdsd = $_POST['team_id'];
+
+        var_dump($sdsd);
+    }
+
+    function teamConditionsCreate( $team_results ) {
+        if ( count($team_results) < 1 ) {
+            if ( isset($_POST['add_team']) ) {
+                echo 'add team -> buttons ';
+                header("Refresh:0");
+                addTeam();
+            } else {
+                echo'<form method="post">
+                    <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
+                </form>';
+            }
+        }
+    }
+
     function buttonsConditions( $team_results ) {
+        if( !isset($_POST['generate_raport']) && 
+            !isset($_POST['generate_raport_to_pdf']) ) {
+            printTeam( $team_results );
+            teamConditionsCreate( $team_results );
+        }
         if(isset($_POST['confirm'])) {
             confirmAddTeam();
         }
@@ -320,26 +446,13 @@
             refresh();
         }
         if(isset($_POST['generate_raport'])) {
-            //generateRaportSummary();
-
-
+            generateRaportSummary();
         }
-
-        if ( count($team_results) < 1 )
-        {
-            if ( isset($_POST['add_team']) )
-            {
-                echo 'add team -> buttons ';
-                header("Refresh:0");
-                addTeam();
-            }
-            else
-            {
-                echo'<form method="post">
-                    <input type="submit" name="add_team" class="button" value="Dodaj drużynę">
-                </form>';
-            }
-            
+        if(isset($_POST['generate_raport_to_pdf'])) {
+            testFun();
+        }
+        if(isset($_POST['cancel_generate_raport_to_pdf'])) {
+            refresh();
         }
     }
 

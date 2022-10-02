@@ -1,4 +1,4 @@
-DRUZYNA
+##DRUZYNA
 
 - wyswietlanie druzyny, nie tylko dla tworcy
 - -usunąć petle przy edycji druzyny
@@ -16,5 +16,8 @@ DRUZYNA
 - co robimy z zawodnikami po usunieciu
 - co robimy z druzyna po usunieciu
 - sprawdzic i potwierdzic zapisanie, edycje i usuniecie kazdego rekordu w bazie
+- walidacja dlugosci imienia i nazwiska
+- dodanie zglaszania bledow
+- dodac role zawodnik glowny sklad i rezerwa
 
 GENRUJ RAPORT
