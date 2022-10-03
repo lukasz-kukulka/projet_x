@@ -431,7 +431,7 @@ if ( is_user_logged_in() ){
         echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
         echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                             Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
-        echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.$insert_date.'"/> <br />';
+        echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime( checkInjection( $insert_date ))).'"/> <br />';
         echo '<input type="submit" name="confirm_add_player" class="button" value = "Dodaj zawodnika"/>';
         echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
         echo '</form>';
@@ -515,7 +515,7 @@ if ( is_user_logged_in() ){
             echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
             echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                                 Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
-            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.$insert_date.'"/> <br />';
+            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime( checkInjection( $insert_date ))).'"/> <br />';
             echo '<input type="submit" name="confirm_edit_player" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
             echo '</form>';
