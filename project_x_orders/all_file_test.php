@@ -405,7 +405,7 @@ if ( is_user_logged_in() ){
         $insert_surname = "";
         $insert_tshirt = 0;
         $insert_date = date('d/m/y');
-        //$id_team = $_POST['id'];
+        $id_team = $_POST['id'];
         $name_error = "";
         $surname_error = "";
 
@@ -414,7 +414,7 @@ if ( is_user_logged_in() ){
             $insert_surname = $_POST['player_surname'];
             $insert_tshirt = $_POST['tshirt_number'];
             $insert_date = $_POST['dob_player'];
-            //$id_team = $_POST['id_team'];
+            $id_team = $_POST['id_team'];
             if ( $_SESSION['error_name'] != "TRUE") {
                 $name_error = $_SESSION['error_name'].'</br>';
             }
@@ -424,7 +424,7 @@ if ( is_user_logged_in() ){
         }
         unset( $_SESSION );
         echo '<form method="post">';
-        echo '<input type="hidden" name="id_team" value="'.$_POST['id'].'"/>';
+        echo '<input type="hidden" name="id_team" value="'.$id_team.'"/>';
         echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="30" size="50"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
         echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="40" size="60"/> <br />';
@@ -467,6 +467,7 @@ if ( is_user_logged_in() ){
         $button_name = "cancel_refresh";
         if ( $num_after_add > $num_before_add ) {
             echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik dodany poprawnie</span></strong></p>';
+            var_dump( $_POST );
         } else {
             $button_name = "add_player";
             echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
@@ -488,7 +489,7 @@ if ( is_user_logged_in() ){
             $insert_surname = $player->surname;
             $insert_tshirt = $player->tshirt_number;
             $insert_date = $player->dob;
-            //$id_team = $_POST['id'];
+            $id_team = $_POST['id'];
             $name_error = "";
             $surname_error = "";
 
@@ -497,7 +498,7 @@ if ( is_user_logged_in() ){
                 $insert_surname = $_POST['player_surname'];
                 $insert_tshirt = $_POST['tshirt_number'];
                 $insert_date = $_POST['dob_player'];
-                //$id_team = $_POST['id_team'];
+                $id_team = $_POST['id_team'];
                 if ( $_SESSION['error_name'] != "TRUE") {
                     $name_error = $_SESSION['error_name'].'</br>';
                 }
@@ -507,7 +508,7 @@ if ( is_user_logged_in() ){
             }
 
             echo '<form method="post">';
-            echo '<input type="hidden" name="id_player" value="'.$_POST['player_id'].'"/>';
+            echo '<input type="hidden" name="id_player" value="'.$id_team.'"/>';
             echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="30" size="50"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
             echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="40" size="60"/> <br />';
@@ -540,7 +541,8 @@ if ( is_user_logged_in() ){
         $button_name = "cancel_refresh";
         foreach ( $player_results as $player ) {
             if ( $player->name == $_POST['player_name'] && $player->surname == $_POST['player_surname'] && $player->dob == $_POST['dob_player'] ) {
-            echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik zedytowany poprawnie</span></strong></p>';
+                var_dump( $_POST );
+                echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik zedytowany poprawnie</span></strong></p>';
             } else {
                 $button_name = "edit_team";
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
