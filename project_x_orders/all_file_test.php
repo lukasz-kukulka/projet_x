@@ -530,7 +530,7 @@ if ( is_user_logged_in() ){
                       array( 'edit_date' => $date,
                              'name' => checkInjection( $_POST['player_name'] ), 
                              'surname' => checkInjection( $_POST['player_surname'] ),
-                             'dob' => checkInjection( $_POST['dob_player'] ),
+                             'dob' => date("d/m/y", strtotime( checkInjection( $_POST['dob_player'] ))),
                              'tshirt_number' => checkInjection( $_POST['tshirt_number'] )
                       ), 
                       array( 'id' => $_POST['id_player'] ) );
