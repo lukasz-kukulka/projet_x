@@ -950,7 +950,7 @@ if ( is_user_logged_in() ){
     }
 
     function buttonsConditions( $team_results ) {
-        var_dump($_POST);
+        //var_dump($_POST);
         if(isset($_POST['confirm_add_player'])) {
             if ( validationAddPlayer() == "ERROR" ) {
                 addPlayer();
@@ -964,6 +964,13 @@ if ( is_user_logged_in() ){
             } else {
                 unset($_SESSION);
                 confirmAddTeam();
+            }
+        } else if(isset($_POST['confirm_edit_team'])) {
+            if ( validationAddTeam() == "ERROR" ) {
+                editTeam( $team_results );
+            } else {
+                unset($_SESSION);
+                confirmEditTeam( $team_results );
             }
         } else if(isset($_POST['add_player'])) {
             addPlayer();
@@ -980,14 +987,6 @@ if ( is_user_logged_in() ){
             teamConditionsCreate( $team_results );
         }
         
-        if(isset($_POST['confirm_edit_team'])) {
-            if ( validationAddTeam() == "ERROR" ) {
-                editTeam( $team_results );
-            } else {
-                unset($_SESSION);
-                confirmEditTeam( $team_results );
-            }
-        }
         if(isset($_POST['delete'])) {
             deleteTeam();
         }
