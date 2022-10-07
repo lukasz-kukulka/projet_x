@@ -509,7 +509,9 @@ if ( is_user_logged_in() ){
             echo '<form method="post">';
             echo '<input type="hidden" name="id_player" value="'.$_POST['player_id'].'"/>';
             echo '<br /><br />Imię<input type="text" name="player_name" value="'.$insert_imie.'"/> <br />';
+            echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
             echo '<br /><br />Nazwisko<input type="text" name="player_surname" value="'.$insert_surname.'" /> <br />';
+            echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
             echo '<br /><br />Numer koszulki<input type="text" name="tshirt_number" value="'.$insert_tshirt.'"/> <br />';
             echo '<br /><br />Data urodzenia<input type="text" name="dob_player" value="'.$insert_date.'"/> <br />';
             echo '<input type="submit" name="confirm_edit_player" class="button" value = "Potwierdz wprowadzone zmiany"/>';
