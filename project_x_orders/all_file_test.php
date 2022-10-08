@@ -401,20 +401,20 @@ if ( is_user_logged_in() ){
     }
 
     function addPlayer () {
-        $insert_imie = "";
+        $insert_name = "";
         $insert_surname = "";
         $insert_tshirt = 0;
         $insert_date = date('d/m/y');
-        $id_team = $_POST['id'];
+        //$id_team = $_POST['id'];
         $name_error = "";
         $surname_error = "";
 
         if ( isset( $_SESSION ) ) {
-            $insert_imie = $_POST['player_name'];
+            $insert_name = $_POST['player_name'];
             $insert_surname = $_POST['player_surname'];
             $insert_tshirt = $_POST['tshirt_number'];
             $insert_date = $_POST['dob_player'];
-            $id_team = $_POST['id_team'];
+            //$id_team = $_POST['id_team'];
             if ( $_SESSION['error_name'] != "TRUE") {
                 $name_error = $_SESSION['error_name'].'</br>';
             }
@@ -425,7 +425,7 @@ if ( is_user_logged_in() ){
         unset( $_SESSION );
         echo '<form method="post">';
         echo '<input type="hidden" name="id_team" value="'.$_POST['id'].'"/>';
-        echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_imie.'" maxlength="30" size="50"/> <br />';
+        echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="30" size="50"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
         echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="40" size="60"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
@@ -484,7 +484,7 @@ if ( is_user_logged_in() ){
         $players = getPlayerResult( $_POST['player_id'] );
         foreach ( $players as $player )
         {
-            $insert_imie = $player->name;
+            $insert_name = $player->name;
             $insert_surname = $player->surname;
             $insert_tshirt = $player->tshirt_number;
             $insert_date = $player->dob;
@@ -493,7 +493,7 @@ if ( is_user_logged_in() ){
             $surname_error = "";
 
             if ( isset( $_SESSION ) ) {
-                $insert_imie = $_POST['player_name'];
+                $insert_name = $_POST['player_name'];
                 $insert_surname = $_POST['player_surname'];
                 $insert_tshirt = $_POST['tshirt_number'];
                 $insert_date = $_POST['dob_player'];
@@ -508,12 +508,13 @@ if ( is_user_logged_in() ){
 
             echo '<form method="post">';
             echo '<input type="hidden" name="id_player" value="'.$_POST['player_id'].'"/>';
-            echo '<br /><br />Imię<input type="text" name="player_name" value="'.$insert_imie.'"/> <br />';
+            echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="30" size="50"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
-            echo '<br /><br />Nazwisko<input type="text" name="player_surname" value="'.$insert_surname.'" /> <br />';
+            echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="40" size="60"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
-            echo '<br /><br />Numer koszulki<input type="text" name="tshirt_number" value="'.$insert_tshirt.'"/> <br />';
-            echo '<br /><br />Data urodzenia<input type="text" name="dob_player" value="'.$insert_date.'"/> <br />';
+            echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
+                                Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
+            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.$insert_date.'"/> <br />';
             echo '<input type="submit" name="confirm_edit_player" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
             echo '</form>';
@@ -1024,6 +1025,5 @@ if ( is_user_logged_in() ){
     }
     buttonsConditions( $team_results );
 }
-
 
 ?>
