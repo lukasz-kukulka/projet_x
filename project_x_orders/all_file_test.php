@@ -488,7 +488,7 @@ if ( is_user_logged_in() ){
             $insert_surname = $player->surname;
             $insert_tshirt = $player->tshirt_number;
             $insert_date = $player->dob;
-            $id_team = $_POST['id'];
+            //$id_team = $_POST['id'];
             $name_error = "";
             $surname_error = "";
 
@@ -497,7 +497,7 @@ if ( is_user_logged_in() ){
                 $insert_surname = $_POST['player_surname'];
                 $insert_tshirt = $_POST['tshirt_number'];
                 $insert_date = $_POST['dob_player'];
-                $id_team = $_POST['id_team'];
+                //$id_team = $_POST['id_team'];
                 if ( $_SESSION['error_name'] != "TRUE") {
                     $name_error = $_SESSION['error_name'].'</br>';
                 }
@@ -531,7 +531,26 @@ if ( is_user_logged_in() ){
                              'tshirt_number' => checkInjection( $_POST['tshirt_number'] )
                       ), 
                       array( 'id' => $_POST['id_player'] ) );
-        refresh();
+
+        $query = $wpdb->prepare("SELECT * FROM `$table_name` WHERE `id` = %s", $_POST['id_player'] );
+        $player_results = $wpdb->get_results($query);
+        $button_name = "cancel_refresh";
+        foreach ( $player_results as $player ) {
+            if ( $player->name == $_POST['player_name'] && $player->surname == $_POST['player_surname'] && $player->dob == $_POST['dob_player'] ) {
+            echo'<p style="text-align:center"><strong><span style="font-size:18px">Zawodnik zedytowany poprawnie</span></strong></p>';
+            } else {
+                $button_name = "edit_team";
+                echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
+            }
+        }
+        echo '<form method="post">';
+        echo '<input type="hidden" name="player_name" value="'.$_POST['player_name'].'"/>';
+        echo '<input type="hidden" name="player_surname" value="'.$_POST['player_surname'].'"/>';
+        echo '<input type="hidden" name="dob_player" value="'.$_POST['dob_player'].'"/>';
+        echo '<input type="hidden" name="tshirt_number" value="'.$_POST['tshirt_number'].'"/>';
+        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '</form>';  
+        //refresh();
     }
 
     function deletePlayer() {
