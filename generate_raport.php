@@ -94,12 +94,6 @@ function generateArrayData($is_base_team = true ) {
             array_push($base_team_lane, $tshirt, $name, $dob);
             array_push($new_complete_generator_data, $base_team_lane);
         }
-        // else if ( $category == "reserve")
-        // {
-        //     array_push($reserve_team_lane, $tshirt, $name, $dob);
-        // }
-
-        //array_push($new_complete_generator_data, $base_team_lane, $reserve_team_lane);
     }
     return $new_complete_generator_data;
 }
@@ -107,20 +101,15 @@ function generateArrayData($is_base_team = true ) {
 $base_team_data_array = generateArrayData();
 $reserve_team_data_array = generateArrayData( false );
 
-//var_dump( $reserve_team_data_array );
 function printAll() {
     global $base_team_data_array;
     global $reserve_team_data_array;
     $iterator = 0;
     for ( $iterator = 0; $iterator < count( $base_team_data_array ); $iterator++ ) {
-        // echo "</br>";
-        // var_dump( $all_data_array[ $iterator ] );
         printOneLine( $iterator, $base_team_data_array[ $iterator ] );
     }
 
     for ( $iterator = 0; $iterator < count( $reserve_team_data_array ); $iterator++ ) {
-        // echo "</br>";
-        // var_dump( $all_data_array[ $iterator ] );
         printOneLine( $iterator, $reserve_team_data_array[ $iterator ], false );
     }
     printCoach();
@@ -130,8 +119,18 @@ function printAll() {
     printDoctor();
     printDirector();
     printDate();
+    printTeamName();
+}
 
+function printTeamName(){
     global $pdf;
+    $begin_pos_y = 23;
+    $begin_pos_x = 44.5;
+    $between_char_spacing = 4;
+    $data = $_POST['team_name'];
+    for ( $iterator = 0; $iterator < strlen($data); $iterator++ ) {
+        $pdf->Text($begin_pos_x + ( $iterator * $between_char_spacing ), $begin_pos_y, strtoupper( $data[ $iterator ] ) );
+    }
 }
 
 function printCoach() {
@@ -216,9 +215,7 @@ function printDate() {
 }
 
 function printOneLine( $line_num, $one_line, $is_base_player = true ) {
-    //echo "test</br>";
     printTshirt( $line_num, $one_line[ 0 ], $is_base_player );
-    //var_dump( $one_line[ 1 ]  );
     printName( $line_num, $one_line[ 1 ], $is_base_player );
     printDOB( $line_num, $one_line[ 2 ], $is_base_player );
 
@@ -237,8 +234,6 @@ function printName($line_num, $print_text, $is_base_player = true ) {
     $special_char_spacing = 4.88;
     $between_char_spacing_if_is_exception = 1.5;
     $print_text = strtoupper($print_text);
-    //echo strlen($print_text)."</br>";
-    //var_dump( $print_text );
     $avoid_indexes = 0;
     
     for ( $iterator = 0; $iterator < strlen($print_text); $iterator++ ) {
@@ -264,9 +259,7 @@ function printName($line_num, $print_text, $is_base_player = true ) {
             } else if ( ord( $print_text[ $iterator ] ) == 131 || ord( $print_text[ $iterator ] ) == 132 ) {
                 $pdf->Text($begin_pos_x + ( $iterator * $between_char_spacing ) - $new_space_between, $begin_pos_y, chr(209) );
             } else {
-                //$pdf->Text($begin_pos_x + ( $iterator * $between_char_spacing ) + $between_char_spacing_if_is_exception, $begin_pos_y, chr(201) );
                 $avoid_indexes++;
-                //echo "Avoid indexed = ".$avoid_indexes." i = ".$i." iterator = ".$iterator." cos = ".ord( $print_text[ $iterator ] ) ."</br>";
             }
         }
         else {
@@ -328,10 +321,23 @@ $line_num = 0;
 
 printAll();
 
-// $pdf->Text(24.5, 49, 'A');
-// $pdf->Text(29.5, 49, 'B');
-// $pdf->Text(34.5, 49, 'C');
-// $pdf->Text(39.5, 49, 'D');
-$pdf->Output('I', 'generated.pdf');
+function generate_name_file() {
+    global $pdf;
+    $name = "";
+    if ( $_POST['raport_type'] == 'gospodarze' ) 
+    {
+        $name = 'protokol_dla_gospodarzy.pdf';
+    }
+    if ( $_POST['raport_type'] == 'goscie' ) {
+        $name = 'protokol_dla_gospodarzy.pdf';
+    }
+    else
+    {
+        $name = 'raport.pdf';
+    }
+    return $name;
+}
+
+$pdf->Output('I', generate_name_file() );
 
 ?>
