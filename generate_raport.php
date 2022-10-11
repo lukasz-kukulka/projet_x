@@ -9,8 +9,14 @@ require_once('fpdi2/src/autoload.php');
 $pdf = new Fpdi();
 $pdf->AddFont('AbhayaLibre','','AbhayaLibre-Regular.php', true);
 //$pageCount = $pdf->setSourceFile('test.pdf');
-$pdf->setSourceFile('raport_host.pdf');
-$pdf->setSourceFile('raport_guest.pdf');
+if ( $_POST['raport_type'] == 'gospodarze' ) 
+{
+    $pdf->setSourceFile('raport_host.pdf');
+}
+if ( $_POST['raport_type'] == 'goscie' ) {
+    $pdf->setSourceFile('raport_guest.pdf');
+}
+
 $pageId = $pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
 
 $pdf->addPage();
