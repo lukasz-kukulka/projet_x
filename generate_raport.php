@@ -8,7 +8,9 @@ require_once('fpdi2/src/autoload.php');
 //MakeFont('fpdi2/src/AbhayaLibre-Regular.ttf','ISO-8859-2');
 $pdf = new Fpdi();
 $pdf->AddFont('AbhayaLibre','','AbhayaLibre-Regular.php', true);
-$pageCount = $pdf->setSourceFile('test.pdf');
+//$pageCount = $pdf->setSourceFile('test.pdf');
+$pdf->setSourceFile('raport_host.pdf');
+$pdf->setSourceFile('raport_guest.pdf');
 $pageId = $pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
 
 $pdf->addPage();
