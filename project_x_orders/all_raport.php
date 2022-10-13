@@ -1,5 +1,7 @@
 <?php
-    $separator_generate_data = "|";
+
+
+if ( is_user_logged_in() ){ 
 
     function refresh() {
         ?>
@@ -199,7 +201,7 @@
         echo '<br /><br />Imię gracza<input type="text" name="player_name" value="Imie"/> <br />';
         echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="Nazwisko"/> <br />';
         echo '<br /><br />Numer koszulki<input type="text" name="tshirt_number" value="0"/> <br />';
-        echo '<br /><br />Data urodzenia w formacie: RRRR-MM-DD <input type="text" name="dob_player" value="2020-01-01"/> <br />';
+        echo '<br /><br />Data urodzenia w formacie: DD/MM/RR <input type="text" name="dob_player" value="01/01/22"/> <br />';
         echo '<br /><br />Numer PESEL<input type="text" name="pesel" value="45020277898"/> <br />';
         echo '<input type="submit" name="confirm_add_player" class="button" value = "Dodaj zawodnika"/>';
         echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
@@ -225,7 +227,8 @@
             'is_coach' => NULL, 
             'is_director' => NULL, 
             'is_manager' => NULL,
-            'team_id' => $_POST['id_team']
+            'team_id' => $_POST['id_team'],
+            'category' => 'none'
             ) ); 
         refresh();        
     }
@@ -327,19 +330,15 @@
     //     }
     // }
     
-    function generateVariableForRaport() {
-
+    function generateVariableForRaport( $separator_generate_data ) {
         global $wpdb;
-        global $separator_generate_data;
-
         $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['id']);
-
         $players_results = $wpdb->get_results($query);
         $distance_between_name_char = 4.0;
         $players_array = array();
 
         foreach ( $players_results as $player ) {
-            $player_name = $player->tshirt_number.$separator_generate_data.$player->name.' '.$player->surname.$separator_generate_data.$player->dob;
+            $player_name = $player->tshirt_number.$separator_generate_data.$player->name.' '.$player->surname.$separator_generate_data.$player->dob.$separator_generate_data;
             array_push($players_array, $player_name);
         }
 
@@ -348,20 +347,16 @@
 
     function generateRaportSummary() {
         global $wpdb;
-        global $separator_generate_data;
+        $separator_generate_data = "|";
         $team_id_data = $_POST['id'];
-        echo $team_id_data."-------------------------------------------------------------------------";
-        //$query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = $team_id_data");
         $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $team_id_data );
         $players_results = $wpdb->get_results($query);
-        $generate_data = generateVariableForRaport();
+        $generate_data = generateVariableForRaport( $separator_generate_data );
 
         echo '<table>
                 <tr><td>Numer koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data urodzenia</td><td>PESEL</td></tr>';
             foreach ( $players_results as $player )
             {
-                var_dump($player);
-                echo'</br>';
                 echo '
                     <tr>
                         <td>'.$player->tshirt_number.'</td>
@@ -462,5 +457,7 @@
     }
 
     buttonsConditions( $team_results );
+}
+
 
 ?>
