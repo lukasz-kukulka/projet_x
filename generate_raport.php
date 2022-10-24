@@ -122,6 +122,30 @@ function printAll() {
     printTeamName();
 }
 
+function getPolishCharacterNumber( $char ) {
+    if ( ord( $char ) == 152 || ord( $char ) == 153 ) { 
+        return chr(202);
+    } else if ( ord( $char ) == 147 || ord( $char ) == 179 ) {
+        return chr(211);
+    } else if ( ord( $char ) == 132 || ord( $char ) == 133 ) {
+        return chr(161);
+    } else if ( ord( $char ) == 154 || ord( $char ) == 155 ) {
+        return chr(166);
+    } else if ( ord( $char ) == 129 || ord( $char ) == 130 ) {
+        return chr(163);
+    } else if ( ord( $char ) == 187 || ord( $char ) == 188 ) {
+        return chr(175);
+    } else if ( ord( $char ) == 185 || ord( $char ) == 186 ) {
+        return chr(172);
+    } else if ( ord( $char ) == 134 || ord( $char ) == 135 ) {
+        return chr(198);
+    } else if ( ord( $char ) == 131 || ord( $char ) == 132 ) {
+        return chr(209);
+    } else {
+        return chr(0);
+    }
+}
+
 function printTeamName(){
     global $pdf;
     $begin_pos_y = 23;
@@ -144,6 +168,12 @@ function printTeamName(){
         if ( ord( $print_text[ $iterator ] ) > 125 ) {
             //Ę Ó Ą Ś Ł Ż Ź Ć Ń 
             $x_position = $begin_pos_x + ( $iterator * $between_char_spacing ) - $new_space_between + $between_char_spacing_if_is_exception_after;
+            // $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
+            // if ( $get_char == 0 ) {
+            //     $avoid_indexes++;
+            // } else {
+            //     $pdf->Text($x_position, $begin_pos_y, $get_char );
+            // }
             if ( ord( $print_text[ $iterator ] ) == 152 || ord( $print_text[ $iterator ] ) == 153 ) { 
                 $pdf->Text($x_position, $begin_pos_y, chr(202) );
             } else if ( ord( $print_text[ $iterator ] ) == 147 || ord( $print_text[ $iterator ] ) == 179 ) {

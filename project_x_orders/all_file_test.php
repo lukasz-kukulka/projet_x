@@ -178,7 +178,7 @@ if ( is_user_logged_in() ){
         echo'<p style="color:red;"><strong><span>'.$error_club.'</span></strong></p>';
         echo '<br /><br />Podaj nazwisko i imie trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_coach.'</span></strong></p>';
-        echo '<br /><br />Podaj numer licencji trenera<input type="text" name="coach_license" maxlength="9" value="'.$insert_license.'"/> <br />';
+        echo '<br /><br />Podaj numer licencji trenera 9 cyfr<input type="text" name="coach_license"  minlength="9" maxlength="9" value="'.$insert_license.'"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_license.'</span></strong></p>';
         echo '<br /><br />Podaj nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'" maxlength="22/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_second_coach.'</span></strong></p>';
@@ -309,23 +309,23 @@ if ( is_user_logged_in() ){
             }
             echo '<form method="post">';
             echo '<input type="hidden" name="id" value="'.$page->id.'"/>';
-            echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$insert_team.'"/> <br />';
+            echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$insert_team.'" maxlength="50"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_team.'</span></strong></p>';
-            echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$insert_club.'" /> <br />';
+            echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$insert_club.'"  maxlength="50"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_club.'</span></strong></p>';
-            echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="coach" value="'.$insert_coach.'"/> <br />';
+            echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_coach.'</span></strong></p>';
-            echo '<br /><br />Podaj numer licencji trenera<input type="text" name="coach_license" value="'.$insert_license.'"/> <br />';
+            echo '<br /><br />Podaj numer licencji trenera 9 cyfr<input type="text" name="coach_license" value="'.$insert_license.'" minlength="9" maxlength="9"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_license.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_second_coach.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie masażysty<input type="text" name="masseur" value="'.$insert_masseur.'"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie masażysty<input type="text" name="masseur" value="'.$insert_masseur.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_masseur.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie lekarza<input type="text" name="doctor" value="'.$insert_doctor.'"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie lekarza<input type="text" name="doctor" value="'.$insert_doctor.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_doctor.'</span></strong></p>';
             echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$insert_manager.'"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_manager.'</span></strong></p>';
-            echo '<br /><br />kierownika<input type="text" name="director" value="'.$insert_director.'"/> <br />';
+            echo '<br /><br />kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_director.'</span></strong></p>';
             echo '<input type="submit" name="confirm_edit_team" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
@@ -357,10 +357,10 @@ if ( is_user_logged_in() ){
         $teams_results = $wpdb->get_results($query);
         $button_name = "cancel_refresh";
         foreach ( $teams_results as $team ) {
-            if ( $_POST['team'] == $team->id && $_POST['club'] == $team->club && $_POST['coach'] == $team->coach  && $_POST['coach_license'] == $team->coach_license && 
-            $_POST['second_coach'] == $team->second_coach && $_POST['masseur'] == $team->masseur && $_POST['doctor'] == $team->doctor && $_POST['manager'] == $team->manager
-            && $_POST['director'] == $team->director) {
-                echo'<p style="text-align:center"><strong><span style="font-size:18px">Drużyna dodana poprawnie</span></strong></p>';
+            if ( $_POST['team'] != $team->id || $_POST['club'] != $team->club || $_POST['coach'] != $team->coach  || $_POST['coach_license'] != $team->coach_license || 
+            $_POST['second_coach'] != $team->second_coach || $_POST['masseur'] != $team->masseur || $_POST['doctor'] != $team->doctor || $_POST['manager'] != $team->manager
+            || $_POST['director'] != $team->director) {
+                echo'<p style="text-align:center"><strong><span style="font-size:18px">Drużyna zedytowana poprawnie</span></strong></p>';
             } else {
                 $button_name = "edit_team";
                 echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
@@ -525,7 +525,7 @@ if ( is_user_logged_in() ){
 
             echo '<form method="post">';
             echo '<input type="hidden" name="player_id" value="'.$_POST['player_id'].'"/>';
-            echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="13" size="50"/> <br />';
+            echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="15" size="50"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$name_error.'</span></strong></p>';
             echo '<br /><br />Nazwisko gracza<input type="text" name="player_surname" value="'.$insert_surname.'" maxlength="15" size="60"/> <br />';
             echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
@@ -725,7 +725,7 @@ if ( is_user_logged_in() ){
         $players_results = $wpdb->get_results($query);
         $generate_data = generateVariableForRaport( $separator_generate_data );
 
-        echo '<tr><form action="../generate_raport.php" method="post">';
+        echo '<tr><form action="../generate_raport_test.php" method="post">';
         $base_players_num = 1;
 
         echo '<p style="text-align:center"><label><input type="radio" id="raport" name="raport_type" value="goscie" checked="checked" ><strong><span style="font-size:24px"> Protokół dla gości </span></strong></label>';
@@ -862,7 +862,7 @@ if ( is_user_logged_in() ){
         printPlayers( $_POST['id'] );
     }
 
-    function isAlphabet( $text, $name, $is_space_char = false, $is_line = false ) {
+    function isAlphabet( $text, $name, $is_space_char = false, $is_line = false , $is_num = false ) {
         $space_char = 74;
         $line_char = 75;
         if ( $is_space_char ) {
@@ -882,6 +882,11 @@ if ( is_user_logged_in() ){
                 }
                 if ( $is_line ) {
                     $special_text = $special_text.', oraz znak "-"';
+                }
+                if ( $is_num && is_numeric( $char) ) {
+                    return "TRUE";
+                } else {
+                    $special_text = $special_text.', jak również numery';
                 }
                 return "W polu $name dozwolone są tylko litery".$special_text;
             }
@@ -933,7 +938,7 @@ if ( is_user_logged_in() ){
 
     function validationAddTeam() {
         //isAlphabet( $text, $name, $is_space_char = false, $is_line = false ) 
-        $validation_team = isAlphabet( $_POST['team'], "drużyna", true, true );
+        $validation_team = isAlphabet( $_POST['team'], "drużyna", true, true, true );
         $validation_club = isAlphabet( $_POST['club'], "klub", true, true );
         $validation_coach = isAlphabet( $_POST['coach'], "nazwisko i imię trenera", true );
         $validation_coach_license = isOnlyNumber( $_POST['coach_license'], "numer licencji trenera");
