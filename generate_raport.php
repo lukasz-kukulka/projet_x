@@ -150,13 +150,17 @@ function getPolishCharacterNumber( $char ) {
 function generateArrayCharNumTextForPrint( $print_text, $max_size ) {
     $array_num = array();
     for ( $iterator = 0; count( $array_num ) < $max_size; $iterator++ ) {
-        if ( ord( $print_text[ $iterator ] ) > 125 ) {
-            $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
-            if ( $get_char != 0 ) {
-                array_push($array_num, $get_char);
-            }
+        if ( $iterator >= strlen( $print_text ) ) {
+            array_push($array_num, 32 );
         } else {
-            array_push($array_num, ord( strtoupper( $print_text[ $iterator ] ) ) );
+            if ( ord( $print_text[ $iterator ] ) > 125 ) {
+                $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
+                if ( $get_char != 0 ) {
+                    array_push($array_num, $get_char);
+                }
+            } else {
+                array_push($array_num, ord( strtoupper( $print_text[ $iterator ] ) ) );
+            }
         }
     }
     return $array_num;
@@ -196,7 +200,6 @@ function printName($line_num, $print_text, $is_base_player = true ) {
     }
     $begin_pos_x = 25.5;
     $between_char_spacing = 4.88;
-    $special_char_spacing = 4.88;
     $between_char_spacing_if_is_exception = 1.5;
     $between_char_spacing_if_is_exception_after = 0.0;
     $name_array = generateArrayCharNumTextForPrint( $print_text, 22 );
@@ -301,8 +304,9 @@ function printDirector() {
 
 function printDate() {
     global $pdf;
-    $date = $_POST['event_date'];
-    $date = date("d-m-y");
+    //$date = $_POST['event_date'];
+    //$date = date("d-m-y");
+    $date = date("d-m-y", strtotime($_POST['event_date']));
     $begin_pos_y = 30;
     $begin_pos_x = 44.5;
     $between_char_spacing = 5.3;

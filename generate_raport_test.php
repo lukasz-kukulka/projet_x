@@ -150,13 +150,17 @@ function getPolishCharacterNumber( $char ) {
 function generateArrayCharNumTextForPrint( $print_text, $max_size ) {
     $array_num = array();
     for ( $iterator = 0; count( $array_num ) < $max_size; $iterator++ ) {
-        if ( ord( $print_text[ $iterator ] ) > 125 ) {
-            $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
-            if ( $get_char != 0 ) {
-                array_push($array_num, $get_char);
-            }
+        if ( $iterator >= strlen( $print_text ) ) {
+            array_push($array_num, 32 );
         } else {
-            array_push($array_num, ord( strtoupper( $print_text[ $iterator ] ) ) );
+            if ( ord( $print_text[ $iterator ] ) > 125 ) {
+                $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
+                if ( $get_char != 0 ) {
+                    array_push($array_num, $get_char);
+                }
+            } else {
+                array_push($array_num, ord( strtoupper( $print_text[ $iterator ] ) ) );
+            }
         }
     }
     return $array_num;

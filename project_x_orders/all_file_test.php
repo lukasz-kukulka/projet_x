@@ -1,6 +1,7 @@
 <?php
 
-
+//include 'project_x_style_test.css';
+require('project_x_style_test.php');
 if ( is_user_logged_in() ){ 
 
     $base_players_numbers = 0;

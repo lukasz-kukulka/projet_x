@@ -94,13 +94,13 @@ if ( is_user_logged_in() ){
             </td></tr>
             <tr><td>Nazwa drużyny</td> <td>'.$page->team. '</td></tr>
             <tr><td>Nazwa klubu :</td> <td>'.$page->club.'</td></tr>
-            <tr><td>Imię i nazwisko trenera :</td> <td>'.$page->coach.'</td></tr>
+            <tr><td>Nazwisko i imię trenera :</td> <td>'.$page->coach.'</td></tr>
             <tr><td>Numer licencji trenera :</td> <td>'.$page->coach_license.'</td></tr>
-            <tr><td>Imię i nazwisko drugiego trenera :</td> <td>'.$page->second_coach.'</td></tr>
-            <tr><td>Imię i nazwisko masażysty :</td> <td>'.$page->masseur.'</td></tr>
-            <tr><td>Imię i nazwisko lekarza :</td> <td>'.$page->doctor.'</td></tr>
-            <tr><td>Imię i nazwisko menagera :</td> <td>'.$page->manager.'</td></tr>
-            <tr><td>Imię i nazwisko kierownika :</td> <td>'.$page->director.'</td></tr>
+            <tr><td>Nazwisko i imię drugiego trenera :</td> <td>'.$page->second_coach.'</td></tr>
+            <tr><td>Nazwisko i imię masażysty :</td> <td>'.$page->masseur.'</td></tr>
+            <tr><td>Nazwisko i imię lekarza :</td> <td>'.$page->doctor.'</td></tr>
+            <tr><td>Nazwisko i imię menagera :</td> <td>'.$page->manager.'</td></tr>
+            <tr><td>Nazwisko i imię kierownika :</td> <td>'.$page->director.'</td></tr>
             </table><br/><br/>';
             if ( $team_results > 0 )
             {
@@ -178,7 +178,7 @@ if ( is_user_logged_in() ){
         echo'<p style="color:red;"><strong><span>'.$error_club.'</span></strong></p>';
         echo '<br /><br />Podaj nazwisko i imie trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_coach.'</span></strong></p>';
-        echo '<br /><br />Podaj numer licencji trenera 9 cyfr<input type="text" name="coach_license"  minlength="9" maxlength="9" value="'.$insert_license.'"/> <br />';
+        echo '<br /><br />Podaj numer licencji trenera dokładnie 9 cyfr<input type="text" name="coach_license"  minlength="9" maxlength="9" value="'.$insert_license.'"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_license.'</span></strong></p>';
         echo '<br /><br />Podaj nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'" maxlength="22/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_second_coach.'</span></strong></p>';
@@ -313,19 +313,19 @@ if ( is_user_logged_in() ){
             echo '<p style="color:red;"><strong><span>'.$error_team.'</span></strong></p>';
             echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$insert_club.'"  maxlength="50"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_club.'</span></strong></p>';
-            echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_coach.'</span></strong></p>';
             echo '<br /><br />Podaj numer licencji trenera 9 cyfr<input type="text" name="coach_license" value="'.$insert_license.'" minlength="9" maxlength="9"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_license.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię drugiego trenera<input type="text" name="second_coach" value="'.$insert_second_coach.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_second_coach.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie masażysty<input type="text" name="masseur" value="'.$insert_masseur.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię masażysty<input type="text" name="masseur" value="'.$insert_masseur.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_masseur.'</span></strong></p>';
-            echo '<br /><br />Podaj nazwisko i imie lekarza<input type="text" name="doctor" value="'.$insert_doctor.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię lekarza<input type="text" name="doctor" value="'.$insert_doctor.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_doctor.'</span></strong></p>';
-            echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$insert_manager.'"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię menagera<input type="text" name="manager" value="'.$insert_manager.'"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_manager.'</span></strong></p>';
-            echo '<br /><br />kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imię kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_director.'</span></strong></p>';
             echo '<input type="submit" name="confirm_edit_team" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
