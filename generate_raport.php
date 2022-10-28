@@ -338,11 +338,13 @@ function printTshirt($line_num, $print_text, $is_base_player = true) {
     }
    
     $begin_pos_x = 18.5;
-    $between_char_spacing = 5.3;
-    $between_char_spacing_if_is_exception = 1.5;
     $print_text = strtoupper($print_text);
-
-    $pdf->Text( $begin_pos_x, $begin_pos_y, $print_text );
+    if ( $print_text == "0") {
+        $pdf->Text( $begin_pos_x, $begin_pos_y, " " );
+    } else {
+        $pdf->Text( $begin_pos_x, $begin_pos_y, $print_text );
+    }
+    
 
 }
 
