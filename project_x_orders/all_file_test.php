@@ -394,10 +394,30 @@ if ( is_user_logged_in() ){
     }
 
     function confirmDeleteTeam( $team_results ) {
-        $id_team = 0;
         global $wpdb;
+
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['id'] );
+        $player_results = $wpdb->get_results($query);
+
+        foreach ( $player_results as $player) {
+            $wpdb->delete( 'project_x_trener_team', array( 'id' => $player->id ) );
+        }
         $wpdb->delete( 'project_x_team', array( 'id' => $_POST['id'] ) );
-        refresh();
+        
+        $button_name = "cancel_refresh";
+        $query = $wpdb->prepare("SELECT * FROM `project_x_trener_team` WHERE `team_id` = %s", $_POST['id'] );
+        $player_results = $wpdb->get_results($query);
+        $query_team = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `id` = %s", $_POST['id']  );
+        $teams_results = $wpdb->get_results($query_team);
+        if ( count ( $player_results ) == 0 && count ( $teams_results ) == 0 ) {
+            echo'<p style="text-align:center"><strong><span style="font-size:18px">Drużyna ze wszystkimi zawodnikami została usunięta</span></strong></p>';
+        } else {
+            echo'<p style="text-align:center"><strong><span style="font-size:18px">Coś poszło nie tak, spróbuj ponownie lub skontaktuj sie z działem pomocy</span></strong></p>';
+        }
+
+        echo '<form method="post">';
+        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+        echo '</form>'; 
     }
 
     function addPlayer () {
