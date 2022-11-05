@@ -1089,13 +1089,14 @@ switch ( $action ) {
 			do_action( 'register_form' );
 
 			?>
-			<p id="reg_passmail">
+			<p id="reg_passmail" style="color: black; font-size: 17px; text-decoration: underline;" >
 				<?php _e( 'Registration confirmation will be emailed to you.' ); ?>
-			</p>
+			</p></br>
 			<br class="clear" />
 			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
 			<input type="checkbox" name="regulamin" id="regulamin" placeholder="regulamin" required/>
-				<label>Przeczytałem i w pełni akceptuje regulamin, <a href="http://v119576.wirt23.bhlink.pl/portal/regulamin/" target="_blank"><h3 style="color:Red;">REGULAMIN</h3>.</a> </label><br>
+				<label>Przeczytałem i w pełni akceptuje regulamin </label>
+				<a href="http://mecztrenera.pl/regulamin/" target="_blank" style="text-decoration:none;"><h2 style="color:Red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REGULAMIN</h2></a></br>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Register' ); ?>" />
 			</p>

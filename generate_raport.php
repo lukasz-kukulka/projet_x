@@ -9,18 +9,23 @@ require_once('fpdi2/src/autoload.php');
 $pdf = new Fpdi();
 $pdf->AddFont('AbhayaLibre','','AbhayaLibre-Regular.php', true);
 //$pageCount = $pdf->setSourceFile('test.pdf');
-if ( $_POST['raport_type'] == 'gospodarze' ) 
-{
-    $pdf->setSourceFile('raport_host.pdf');
-}
-if ( $_POST['raport_type'] == 'goscie' ) {
-    $pdf->setSourceFile('raport_guest.pdf');
-}
+$pdf->setSourceFile('pro.pdf');
+
+
+// if ( $_POST['raport_type'] == 'gospodarze' ) 
+// {
+//     $pdf->setSourceFile('pro.pdf');
+// }
+// if ( $_POST['raport_type'] == 'goscie' ) {
+    
+//     $pdf->setSourceFile('pro.pdf');
+// }
 
 $pageId = $pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
 
 $pdf->addPage();
 $pdf->useImportedPage($pageId, 0, 0 );
+;
 $pdf->SetFont('AbhayaLibre','',12);
 
 $team_size = $_POST['generate_data_size'];
@@ -29,6 +34,16 @@ $separator_generate_data = $_POST['separator_generate_data'];
 $distance_between_name = 4.0;
 $distance_date_name = 4.0;
 $line_num = 0;
+
+if ( $_POST['raport_type'] == 'gospodarze' ) 
+{
+    $pdf->SetLineWidth(0.7);
+    $pdf->Line( 39, 20.50, 49, 19.00 );
+}
+if ( $_POST['raport_type'] == 'goscie' ) {
+    $pdf->SetLineWidth(0.7);
+    $pdf->Line( 18, 20.50, 38, 19.00 );
+}
 
 function getPostDataToGenerateArray() {
     global $team_size;
@@ -74,6 +89,10 @@ function generateArrayData($is_base_team = true ) {
             $iterator++;
         }
 
+        if ($tshirt == '0') {
+            $tshirt = '';
+        }
+
         $iterator++;
 
         while ( $one_line[ $iterator ] != $separator_generate_data ) {
@@ -117,31 +136,31 @@ function printAll() {
     printCoachLicenseNumber();
     printSecondCoach();
     printMasseur();
-    printDoctor();
+    // printDoctor();
     printDirector();
     printDate();
     printTeamName();
 }
 
-function getPolishCharacterNumber( $char ) {
-    if ( ord( $char ) == 152 || ord( $char ) == 153 ) { 
-        return 202;
-    } else if ( ord( $char ) == 147 || ord( $char ) == 179 ) {
-        return 211;
-    } else if ( ord( $char ) == 132 || ord( $char ) == 133 ) {
-        return 161;
-    } else if ( ord( $char ) == 154 || ord( $char ) == 155 ) {
-        return 166;
-    } else if ( ord( $char ) == 129 || ord( $char ) == 130 ) {
+function getPolishCharacterNumber( $dia, $char ) {
+    if ( ( ord( $char ) == 129 || ord( $char ) == 130 ) && ord( $dia ) == 197  ) { //Łł
         return 163;
-    } else if ( ord( $char ) == 187 || ord( $char ) == 188 ) {
-        return 175;
-    } else if ( ord( $char ) == 185 || ord( $char ) == 186 ) {
-        return 172;
-    } else if ( ord( $char ) == 134 || ord( $char ) == 135 ) {
-        return 198;
-    } else if ( ord( $char ) == 131 || ord( $char ) == 132 ) {
+    } else if ( ( ord( $char ) == 131 || ord( $char ) == 132 ) && ord( $dia ) == 197  ) { //Ńń
         return 209;
+    } else if ( ( ord( $char ) == 132 || ord( $char ) == 133 ) && ord( $dia ) == 196  ) { //Ąą
+        return 161;
+    } else if ( ( ord( $char ) == 134 || ord( $char ) == 135 ) && ord( $dia ) == 196  ) { //Ćć
+        return 198;
+    } else if ( ( ord( $char ) == 152 || ord( $char ) == 153 ) && ord( $dia ) == 196  ) { //Ęę
+        return 202;
+    } else if ( ( ord( $char ) == 147 || ord( $char ) == 179 ) && ord( $dia ) == 195 ) { //Óó
+        return 211;
+    } else if ( ( ord( $char ) == 154 || ord( $char ) == 155 ) && ord( $dia ) == 197 ) { //Śś
+        return 166;
+    } else if ( ( ord( $char ) == 185 || ord( $char ) == 186 ) && ord( $dia ) == 197 ) { //Śś
+        return 172;
+    } else if ( ( ord( $char ) == 187 || ord( $char ) == 188 ) && ord( $dia ) == 197 ) { //Śś
+        return 175;
     } else {
         return 0;
     }
@@ -154,10 +173,9 @@ function generateArrayCharNumTextForPrint( $print_text, $max_size ) {
             array_push($array_num, 32 );
         } else {
             if ( ord( $print_text[ $iterator ] ) > 125 ) {
-                $get_char = getPolishCharacterNumber( $print_text[ $iterator ] );
-                if ( $get_char != 0 ) {
-                    array_push($array_num, $get_char);
-                }
+                $get_char = getPolishCharacterNumber( $print_text[ $iterator ], $print_text[ $iterator + 1 ] );
+                array_push($array_num, $get_char);
+                $iterator++;
             } else {
                 array_push($array_num, ord( strtoupper( $print_text[ $iterator ] ) ) );
             }
@@ -166,13 +184,48 @@ function generateArrayCharNumTextForPrint( $print_text, $max_size ) {
     return $array_num;
 }
 
+function getReservePlayerPositionY( $player_num ){
+    switch($player_num) {
+        case 0:
+            return 110.7;
+            break;
+        case 1:
+            return 116.4;
+            break;
+        case 2:
+            return 121.4;
+            break;
+        case 3:
+            return 126.3;
+            break;
+        case 4:
+            return 131.4;
+            break;
+        case 5:
+            return 136.5;
+            break;
+        case 6:
+            return 141.4;
+            break;
+        case 7:
+            return 146.4;
+            break;
+        case 8:
+            return 151.4;
+            break;
+        
+        default:
+            return 99999;
+    }
+}
+
 function printTeamName(){
     global $pdf;
-    $begin_pos_y = 23;
-    $begin_pos_x = 30.5;
+    $begin_pos_y = 17.8;
+    $begin_pos_x = 52.5;
     if ( $_POST['raport_type'] == 'gospodarze' ) 
     {
-        $begin_pos_x = 39.5;
+        //$begin_pos_x = 39.5;
     }
     $between_char_spacing = 2.5;
     $between_char_spacing_if_is_exception = 0;
@@ -193,14 +246,14 @@ function printTeamName(){
 function printName($line_num, $print_text, $is_base_player = true ) {
     global $pdf;
     $begin_pos_y = 0;
+    $special_char_y_spacing = 0.88 * $line_num;
     if ( $is_base_player ) {
-        $begin_pos_y = ( $line_num * 6.6 ) + 49;
+        $begin_pos_y = ( $line_num * 5.65 ) + 41;
     } else {
-        $begin_pos_y = ( $line_num * 6.6 ) + ( 72.6 ) + 49 + 9.9;
+        $begin_pos_y = getReservePlayerPositionY( $line_num );
     }
-    $begin_pos_x = 25.5;
-    $between_char_spacing = 4.88;
-    $special_char_spacing = 4.88;
+    $begin_pos_x = 27.5;
+    $between_char_spacing = 4.92;
     $between_char_spacing_if_is_exception = 1.5;
     $between_char_spacing_if_is_exception_after = 0.0;
     $name_array = generateArrayCharNumTextForPrint( $print_text, 22 );
@@ -216,9 +269,9 @@ function printName($line_num, $print_text, $is_base_player = true ) {
 
 function printCoach() {
     global $pdf;
-    $begin_pos_y = 207.5;
-    $begin_pos_x = 17.2;
-    $between_char_spacing = 5.9;
+    $begin_pos_y = 190.3;
+    $begin_pos_x = 22.2;
+    $between_char_spacing = 5.98;
     $between_char_spacing_if_is_exception_after = 0;
     $name_array = generateArrayCharNumTextForPrint( $_POST['coach'], 20 );
     for ( $iterator = 0; $iterator < count( $name_array ); $iterator++ ) {
@@ -232,18 +285,17 @@ function printCoach() {
 
 function printCoachLicenseNumber() {
     global $pdf;
-    $begin_pos_y = 207.0;
-    $begin_pos_x = 140.2;
-    $pdf->SetFont('AbhayaLibre','',14);
+    $begin_pos_y = 190.3;
+    $begin_pos_x = 146.2;
     $pdf->Text($begin_pos_x, $begin_pos_y, $_POST['coach_license'] );
-    $pdf->SetFont('AbhayaLibre','',12);
+
 }
 
 function printSecondCoach() {
     global $pdf;
-    $begin_pos_y = 213.1;
-    $begin_pos_x = 17.2;
-    $between_char_spacing = 5.9;
+    $begin_pos_y = 195.3;
+    $begin_pos_x = 22.2;
+    $between_char_spacing = 5.98;
     $between_char_spacing_if_is_exception_after = 0;
     $name_array = generateArrayCharNumTextForPrint( $_POST['second_coach'], 20 );
     for ( $iterator = 0; $iterator < count( $name_array ); $iterator++ ) {
@@ -257,9 +309,9 @@ function printSecondCoach() {
 
 function printMasseur() {
     global $pdf;
-    $begin_pos_y = 219.2;
-    $begin_pos_x = 17.2;
-    $between_char_spacing = 5.9;
+    $begin_pos_y = 205.1;
+    $begin_pos_x = 22.2;
+    $between_char_spacing = 5.98;
     $between_char_spacing_if_is_exception_after = 0;
     $name_array = generateArrayCharNumTextForPrint( $_POST['masseur'], 20 );
     for ( $iterator = 0; $iterator < count( $name_array ); $iterator++ ) {
@@ -289,9 +341,9 @@ function printDoctor() {
 
 function printDirector() {
     global $pdf;
-    $begin_pos_y = 231.3;
-    $begin_pos_x = 17.2;
-    $between_char_spacing = 5.9;
+    $begin_pos_y = 200.1;
+    $begin_pos_x = 22.2;
+    $between_char_spacing = 5.98;
     $between_char_spacing_if_is_exception_after = 0;
     $name_array = generateArrayCharNumTextForPrint( $_POST['director'], 20 );
     for ( $iterator = 0; $iterator < count( $name_array ); $iterator++ ) {
@@ -306,19 +358,21 @@ function printDirector() {
 function printDate() {
     global $pdf;
     $date = date("d-m-y", strtotime( $_POST['event_date'] ));
-    // $date = $_POST['event_date'];
-    // $date = date("d-m-y");
-    $begin_pos_y = 30;
-    $begin_pos_x = 44.5;
-    $between_char_spacing = 5.3;
-    $space_after_month = 6.0;
+    $begin_pos_y = 20.8;
+    $begin_pos_x = 175;
+    $between_char_spacing = 2;
+    $space_after_month = 3.5;
     for ( $iterator = 0; $iterator < strlen($date); $iterator++ ) {
+        if( $iterator == 6 ) {
+            continue;
+        }
         if ( $date[ $iterator ] != "-" ) {
             $pdf->Text($begin_pos_x + ( $iterator * $between_char_spacing ), $begin_pos_y, strtoupper( $date[ $iterator ] ) );
         } 
         if( $iterator == 4 ) {
             $begin_pos_x += $space_after_month;
         }
+
     }
 }
 
@@ -332,15 +386,16 @@ function printOneLine( $line_num, $one_line, $is_base_player = true ) {
 function printTshirt($line_num, $print_text, $is_base_player = true) {
     global $pdf;
     $begin_pos_y = 0;
+
     if ( $is_base_player ) {
-        $begin_pos_y = ( $line_num * 6.6 ) + 49;
+        $begin_pos_y = ( $line_num * 5.65 ) + 40.8;
     } else {
-        $begin_pos_y = ( $line_num * 6.6 ) + ( 72.6 ) + 49 + 9.6;
+        $begin_pos_y = getReservePlayerPositionY( $line_num ) - 0.2;
     }
    
-    $begin_pos_x = 18.5;
-    $between_char_spacing = 5.3;
-    $between_char_spacing_if_is_exception = 1.5;
+    $begin_pos_x = 21.0;
+    // $between_char_spacing = 5.3;
+    // $between_char_spacing_if_is_exception = 1.5;
     $print_text = strtoupper($print_text);
 
     $pdf->Text( $begin_pos_x, $begin_pos_y, $print_text );
@@ -351,13 +406,13 @@ function printDOB($line_num, $print_text, $is_base_player = true) {
     global $pdf;
      $begin_pos_y = 0;
     if ( $is_base_player ) {
-        $begin_pos_y = ( $line_num * 6.6 ) + 49;
+        $begin_pos_y = ( $line_num * 5.65 ) + 41;
     } else {
-        $begin_pos_y = ( $line_num * 6.6 ) + ( 72.6 ) + 49 + 9.7;
+        $begin_pos_y = $begin_pos_y = getReservePlayerPositionY( $line_num );
     }
    
-    $begin_pos_x = 138.5;
-    $between_char_spacing = 5.3;
+    $begin_pos_x = 140.5;
+    $between_char_spacing = 5.5;
     $between_char_spacing_if_is_exception = 1.5;
     $print_text = strtoupper($print_text);
     

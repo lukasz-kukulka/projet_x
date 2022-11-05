@@ -1024,7 +1024,8 @@ if ( ! is_user_logged_in() ) {
                 }
                 if ( $is_num && is_numeric( $char) ) {
                     return "TRUE";
-                } else {
+                }
+                if ( $is_num && !is_numeric( $char) ) {
                     $special_text = $special_text.', jak również numery';
                 }
                 return "W polu $name dozwolone są tylko litery".$special_text;
@@ -1047,8 +1048,8 @@ if ( ! is_user_logged_in() ) {
     }
 
     function isOnlyNumber( $num, $text ) {
-        if ( !is_numeric( $num ) ) {
-            return "W polu '.$text.'dozwolone są tylko liczby";
+        if ( !is_numeric( $num ) && $num != null ) {
+            return 'W polu '.$text.'dozwolone są tylko liczby';
         } else {
             return "TRUE";
         }
