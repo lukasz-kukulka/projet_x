@@ -2,6 +2,7 @@
 
 //include 'project_x_style_test.css';
 require('project_x_style_test.php');
+
 if ( is_user_logged_in() ){ 
 
     $base_players_numbers = 0;
@@ -58,9 +59,19 @@ if ( is_user_logged_in() ){
             echo'<p style="text-align:center"><strong><span style="font-size:36px">Zawodnicy</span></strong></p>';
         }
         echo '</br>';
-        printBasePlayers( $player_results );
-        printReservePlayers( $player_results );
-        printOthersPlayers( $player_results );
+
+        foreach ( $player_results as $single_result ) {
+            if ( $player->category == 'base' ) {
+                printBasePlayers( $single_result );
+            } else if ( $player->category == 'reserve' ) {
+                printReservePlayers( $single_result );
+            } else {
+                printOthersPlayers( $single_result );
+            }
+        }
+        // printBasePlayers( $player_results );
+        // printReservePlayers( $player_results );
+        // printOthersPlayers( $player_results );
         echo '</table>';
     }
 
@@ -621,31 +632,38 @@ if ( is_user_logged_in() ){
     function printBasePlayers( $players_results ) {
         global $base_players_numbers;
         $base_players_num = 1;
-        echo'<p style="text-align:center"><strong><span style="font-size:24px">Skład podstawowy</span></strong></p>';
-        echo '<table>
-                <tr><td>   </td><td>Numer </br>koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data </br>urodzenia</td><td>   </td><td>   </td><td>   </td></tr>';
-            foreach ( $players_results as $player )
-            {
-                if ( $player->category == 'base' )
-                {
-                    echo '
-                    <tr><form method="post">
-                        <td>'.$base_players_num++.'</td>
-                        <td>'.$player->tshirt_number.'</td>
-                        <td>'.$player->name.'</td>
-                        <td>'.$player->surname.'</td>
-                        <td>'.$player->dob.'</td>
-                        <input type="hidden" name="player_id" value="'.$player->id.'"/>
-                        <input type="hidden" name="id" value="'.$_POST['id'].'"/>
-                        <td><input type="submit" name="edit_player" class="button" value = "Edytuj"/></td>
-                        <td><input type="submit" name="delete_player" class="button" value = "Usuń"/></td>
-                        <td><input type="submit" name="del_from_base_team" class="button" value = "Usuń z podstawowego składu"/></td>
+
+        echo '<table class="tab_base_player">';
+        echo '<tr><td><p style="text-align:center"><strong><span style="font-size:24px">Skład podstawowy</span></strong></p></td></tr>';
+
+        echo '<tr><td>';
+        foreach ( $players_results as $player ) {
+            if ( $player->category == 'base' ) {
+                echo '<table class="single_tab_base_payer">';
+                echo '<form method="post">';
+                //echo '<tr><td class="player_num_cell" >'.$base_players_num++.'</td><td class="tshirt_cell" >'.$player->tshirt_number.'</td></tr>';
+                echo '<tr>
+                        <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
+                        <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
                         
-                        </form></tr>';
-                }
+                      </tr>';
+                echo '<tr>
+                        <td colspan="2" class="dob_cell" >'.$player->dob.'</td>
+                        <td colspan="2" class="edit_cell" ><input type="submit" name="edit_player" class="button_edit" value = "Edytuj"/>
+                                                           <input type="submit" name="delete_player" class="button_delete" value = "Usuń"/></td>
+                        <td colspan="3" class="move_to_cell" ><input type="submit" name="del_from_base_team" class="button_move_to" value = "Przenieś do pozostali"/>
+                                                              <input type="submit" name="add_to_reserve_team" class="button_move_to" value = "Przenieś do rezerwy"/></td>
+                      </tr>';
+                echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
+                echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+                echo '</form>';
+                echo '</table>';
             }
-        echo '</table>';
+            
+        }
+        echo '</td></tr>';
         echo'</br>';
+        echo '</table>';
         $base_players_numbers = $base_players_num;
     }
 
