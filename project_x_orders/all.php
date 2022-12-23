@@ -1,6 +1,6 @@
 <?php
 
-require('project_x_style_test.php');
+require('project_x_style.php');
 
 global $current_user;
 wp_get_current_user();
@@ -840,7 +840,7 @@ if ( ! is_user_logged_in() ) {
         $players_results = $wpdb->get_results($query);
         $generate_data = generateVariableForRaport( $separator_generate_data );
 
-        echo '<tr><form action="../generate_raport_test.php" method="post">';
+        echo '<tr><form action="../generate_raport.php" method="post">';
         $base_players_num = 1;
 
         echo '<p style="text-align:center"><label><input type="radio" id="raport" name="raport_type" value="goscie" checked="checked" ><strong><span style="font-size:24px"> Protokół dla gości </span></strong></label>';
