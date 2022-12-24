@@ -200,6 +200,7 @@ function printName($line_num, $print_text, $is_base_player = true ) {
     }
     $begin_pos_x = 25.5;
     $between_char_spacing = 4.88;
+    $special_char_spacing = 4.88;
     $between_char_spacing_if_is_exception = 1.5;
     $between_char_spacing_if_is_exception_after = 0.0;
     $name_array = generateArrayCharNumTextForPrint( $print_text, 22 );
@@ -304,9 +305,9 @@ function printDirector() {
 
 function printDate() {
     global $pdf;
-    //$date = $_POST['event_date'];
-    //$date = date("d-m-y");
-    $date = date("d-m-y", strtotime($_POST['event_date']));
+    $date = date("d-m-y", strtotime( $_POST['event_date'] ));
+    // $date = $_POST['event_date'];
+    // $date = date("d-m-y");
     $begin_pos_y = 30;
     $begin_pos_x = 44.5;
     $between_char_spacing = 5.3;
@@ -338,13 +339,11 @@ function printTshirt($line_num, $print_text, $is_base_player = true) {
     }
    
     $begin_pos_x = 18.5;
+    $between_char_spacing = 5.3;
+    $between_char_spacing_if_is_exception = 1.5;
     $print_text = strtoupper($print_text);
-    if ( $print_text == "0") {
-        $pdf->Text( $begin_pos_x, $begin_pos_y, " " );
-    } else {
-        $pdf->Text( $begin_pos_x, $begin_pos_y, $print_text );
-    }
-    
+
+    $pdf->Text( $begin_pos_x, $begin_pos_y, $print_text );
 
 }
 
