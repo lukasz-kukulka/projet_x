@@ -814,7 +814,7 @@ if ( is_user_logged_in() ){
         $players_results = $wpdb->get_results($query);
         $generate_data = generateVariableForRaport( $separator_generate_data );
 
-        echo '<tr><form action="generate_raport_test.php" method="post">';
+        echo '<tr><form action="../generate_raport_test.php" method="post">';
         $base_players_num = 1;
 
         echo '<p style="text-align:center"><label><input type="radio" id="raport" name="raport_type" value="goscie" checked="checked" ><strong><span style="font-size:24px"> Protokół dla gości </span></strong></label>';
@@ -875,21 +875,11 @@ if ( is_user_logged_in() ){
         echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Generuj"/></td></tr>';
         echo '</table></form></tr>';
 
-        //echo '<input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
-        //</form></tr>';
         echo '<tr><form method="post">';
         echo '<table id="tab_team">';
         echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Powrót"/></td></tr>';
         echo '</table></form></tr>';
         echo '</form></tr>';
-        //echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
-
-        //echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
-
-        // echo '<table id="tab_team">';
-        // echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
-        // echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
-        // echo '</table>';
     }
 
     function teamConditionsCreate( $team_results ) {
