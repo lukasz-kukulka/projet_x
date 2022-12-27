@@ -589,9 +589,6 @@ if ( is_user_logged_in() ){
             echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
             echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
             echo '</table>';
-            
-            // echo '<input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/>';
-            // echo '<input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/>';
             echo '</form>';
         }
         
@@ -873,9 +870,26 @@ if ( is_user_logged_in() ){
         echo '<input type="hidden" name="team_name" value="'.$_POST[ 'team_name' ].'"/>';
         echo '<input type="hidden" name="generate_data_size" value="'.$data_array_size.'"/>';
         echo '<input type="hidden" name="separator_generate_data" value="'.$separator_generate_data.'"/>';
-        echo '<input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
-        </form></tr>';
-        echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
+
+        echo '<table id="tab_team">';
+        echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Generuj"/></td></tr>';
+        echo '</table></form></tr>';
+
+        //echo '<input type="submit" name="generate_raport_to_pdf" class="button" value = "Generuj"/>
+        //</form></tr>';
+        echo '<tr><form method="post">';
+        echo '<table id="tab_team">';
+        echo '<tr><td><input type="submit" name="generate_raport_to_pdf" class="team_button" value = "Powrót"/></td></tr>';
+        echo '</table></form></tr>';
+        echo '</form></tr>';
+        //echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
+
+        //echo '<tr><form method="post"><input type="submit" name="cancel_generate_raport_to_pdf" class="button" value = "Powrót"/></form></tr>';
+
+        // echo '<table id="tab_team">';
+        // echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
+        // echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
+        // echo '</table>';
     }
 
     function teamConditionsCreate( $team_results ) {
