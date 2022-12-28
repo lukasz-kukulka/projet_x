@@ -490,8 +490,12 @@ if ( is_user_logged_in() ){
         echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                             Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
         echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime( checkInjection( $insert_date ))).'"/> <br />';
-        echo '<input type="submit" name="confirm_add_player" class="button" value = "Dodaj zawodnika"/>';
-        echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
+       
+        echo '<table id="tab_team">';
+        echo '<tr><td><input type="submit" name="confirm_add_player" class="team_button" value = "Dodaj zawodnika"/></td></tr>';
+        echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
+        echo '</table>';
+
         echo '</form>';
     }
 
@@ -580,8 +584,14 @@ if ( is_user_logged_in() ){
             echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                                 Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
             echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("YYYY-MM-DD", strtotime( checkInjection( $insert_date ))).'"/> <br />';
-            echo '<input type="submit" name="confirm_edit_player" class="button" value = "Potwierdz wprowadzone zmiany"/>';
-            echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
+            
+            echo '<table id="tab_team">';
+            echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
+            echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
+            echo '</table>';
+            
+            // echo '<input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/>';
+            // echo '<input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/>';
             echo '</form>';
         }
         
@@ -641,17 +651,6 @@ if ( is_user_logged_in() ){
             </tr></table>';
         echo '</form>';
     }
-
-    // function deleteTeam() {
-    //     echo '<form method="post">';
-    //     echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
-    //     echo '<table><tr>
-    //             <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
-    //             <td class="button_del_cell"><input type="submit" name="confirm_delete_team" class="del_button" value = "Usuń"/></td>
-    //             <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
-    //         </tr></table>';
-    //     echo '</form>';
-    // }
 
     function confirmDeletePlayer() {
         global $wpdb;
