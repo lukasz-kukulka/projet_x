@@ -623,10 +623,21 @@ if ( is_user_logged_in() ){
     function deletePlayer() {
         echo '<form method="post">';
         echo '<input type="hidden" name="id_player" value="'.$_POST['player_id'].'"/>';
-        echo '<table><tr>
-                <td>Jesteś pewien że chcesz usunąć?</td> 
-                <td><input type="submit" name="confirm_delete_player" class="button" value = "Usuń zawodnika"/>
-                    <input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/></td>
+
+        foreach ( getPlayerResult($_POST['player_id']) as $player ) {
+            echo '<center><table class="single_tab_base_payer">';
+            echo '<tr>
+                    <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
+                    <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
+                    
+                    </tr>';
+            echo '</table><center>';
+        }
+        echo '<table>
+            <tr>
+                <td>Jesteś pewien że chcesz usunąć powyższego zawodnika?</td> 
+                <td class="button_del_cell"><input type="submit" name="confirm_delete_player" class="del_button" value = "Usuń"/></td>
+                <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
             </tr></table>';
         echo '</form>';
     }
@@ -642,19 +653,6 @@ if ( is_user_logged_in() ){
     //     echo '</form>';
     // }
 
-    // function doubleDeleteTeam() {
-    //     echo '<form method="post">';
-    //     echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
-    //     echo '<table><tr>
-    //             <td>Usunięcie drużyny, jest nieodwracalne, usuwając drużynę stracisz wszystkich zawodników</td> 
-    //             <td class="button_del_cell"><input type="submit" name="double_confirm_delete_team" class="del_button" value = "Usuń"/></td>
-    //             <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
-    //         </tr></table>';
-    //     echo '</form>';
-    // }
-
-
-
     function confirmDeletePlayer() {
         global $wpdb;
         $table_name = 'project_x_trener_team'; 
@@ -669,7 +667,10 @@ if ( is_user_logged_in() ){
         }
 
         echo '<form method="post">';
-        echo '<input type="submit" name="'.$button_name.'" class="button" value = "Ok"/>';
+
+        echo '<center><table style="width: 120px; height: 30px;"><tr><td class="button_team_cell"><input type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></td></tr></table><center>';
+
+        //echo '<center><input style="width: 120px; height: 30px;" type="submit" name="'.$button_name.'" class="team_button" value = "Ok"/></center>';
         echo '</form>'; 
 
     }
