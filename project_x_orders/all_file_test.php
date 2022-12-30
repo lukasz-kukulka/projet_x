@@ -24,9 +24,14 @@ if ( is_user_logged_in() ){
     function refresh() {
         ?>
         <script type="text/javascript">
-            window.location=window.location;
+            location.href = location.href
+            location.replace(location.pathname)
+            window.location = window.location
+            window.self.window.self.window.window.location = window.location
         </script>
         <?php
+
+
     }
 
     function getTeamResult() {
@@ -59,20 +64,26 @@ if ( is_user_logged_in() ){
             echo'<p style="text-align:center"><strong><span style="font-size:36px">Zawodnicy</span></strong></p>';
         }
         echo '</br>';
-
+        $base_results = array();
+        $reserve_results = array();
+        $others_results = array();
         foreach ( $player_results as $single_result ) {
-            if ( $player->category == 'base' ) {
-                printBasePlayers( $single_result );
-            } else if ( $player->category == 'reserve' ) {
-                printReservePlayers( $single_result );
+            if ( $single_result->category == 'base' ) {
+                array_push($base_results, $single_result);
+            } else if ( $single_result->category == 'reserve' ) {
+                array_push($reserve_results, $single_result);
             } else {
-                printOthersPlayers( $single_result );
+                array_push($others_results, $single_result);
             }
         }
-        // printBasePlayers( $player_results );
-        // printReservePlayers( $player_results );
-        // printOthersPlayers( $player_results );
-        echo '</table>';
+
+        global $base_players_numbers;
+        global $reserve_players_numbers;
+        $base_players_numbers = count( $base_results );
+        $reserve_players_numbers = count( $reserve_results );
+        printBasePlayers( $base_results );
+        printReservePlayers( $reserve_results );
+        printOthersPlayers( $others_results );
     }
 
     function printTeam( $team_results ) {
@@ -82,43 +93,46 @@ if ( is_user_logged_in() ){
         }
         else
         {
-            echo'<p style="text-align:center"><strong><span style="font-size:36px">Drużyna</span></strong></p>';
-        }
-        
-        foreach ( $team_results as $page )
-        {
-            echo '<table>
-            <tr><td>Data utworzenia drużyny :</td> <td>'.$page->create_date.'</td><td rowspan="0"> 
-            <form method="post">
-            <input type="hidden" name="id" value="'.$page->id.'"/>
-            <input type="hidden" name="team_name" value="'.$page->club.'"/>
-            <input type="hidden" name="coach" value="'.$page->coach.'"/>
-            <input type="hidden" name="director" value="'.$page->director.'"/>
-            <input type="hidden" name="coach_license" value="'.$page->coach_license.'"/>
-            <input type="hidden" name="second_coach" value="'.$page->second_coach.'"/>
-            <input type="hidden" name="masseur" value="'.$page->masseur.'"/>
-            <input type="hidden" name="doctor" value="'.$page->doctor.'"/>
-            <input type="submit" name="edit_team" class="button" value = "Edytuj"/><br/>
-            <input type="submit" name="delete" class="button" value = "Usuń"/><br/>
-            <input type="submit" name="add_player" class="button" value = "Dodaj zawodnika"/><br/>
-            <input type="submit" name="generate_raport" class="button" value = "Generuj protokół"/><br/>
-            </form>
-            </td></tr>
-            <tr><td>Nazwa drużyny</td> <td>'.$page->team. '</td></tr>
-            <tr><td>Nazwa klubu :</td> <td>'.$page->club.'</td></tr>
-            <tr><td>Imię i nazwisko trenera :</td> <td>'.$page->coach.'</td></tr>
-            <tr><td>Numer licencji trenera :</td> <td>'.$page->coach_license.'</td></tr>
-            <tr><td>Imię i nazwisko drugiego trenera :</td> <td>'.$page->second_coach.'</td></tr>
-            <tr><td>Imię i nazwisko masażysty :</td> <td>'.$page->masseur.'</td></tr>
-            <tr><td>Imię i nazwisko lekarza :</td> <td>'.$page->doctor.'</td></tr>
-            <tr><td>Imię i nazwisko menagera :</td> <td>'.$page->manager.'</td></tr>
-            <tr><td>Imię i nazwisko kierownika :</td> <td>'.$page->director.'</td></tr>
-            </table><br/><br/>';
-            if ( $team_results > 0 )
+            $team_num = 1;
+            foreach ( $team_results as $page )
             {
-                printPlayers( $page->id );
+                echo'<p style="text-align:center"><strong><span style="font-size:36px">Drużyna '.$team_num.'</span></strong></p>';
+                echo '<table id="tab_team">';
+                echo '<tr><td class="team_name_cell">'.strtoupper( $page->team ).'</td></tr>';
+                echo '<tr><td class="club_name_cell">'.strtoupper( $page->club ).'</td></tr>';
+                echo '<tr><td class="coach_cell">'.strtoupper( $page->coach ).'</td></tr>';
+                echo '<tr><td class="coach_license_cell">'.strtoupper( $page->coach_license ).'</td></tr>';
+                echo '<tr><td class="second_coach_name_cell">'.strtoupper( $page->second_coach ).'</td></tr>';
+                echo '<tr><td class="masseur_name_cell">'.strtoupper( $page->masseur ).'</td></tr>';
+                echo '<tr><td class="doctor_name_cell">'.strtoupper( $page->doctor ).'</td></tr>';
+                echo '<tr><td class="manager_name_cell">'.strtoupper( $page->manager ).'</td></tr>';
+                echo '<tr><td class="director_name_cell">'.strtoupper( $page->director ).'</td></tr>';
+                echo '<form method="post">';
+                echo '<input type="hidden" name="id" value="'.$page->id.'"/>';
+                echo '<input type="hidden" name="team_name" value="'.$page->club.'"/>';
+                echo '<input type="hidden" name="coach" value="'.$page->coach.'"/>';
+                echo '<input type="hidden" name="director" value="'.$page->director.'"/>';
+                echo '<input type="hidden" name="coach_license" value="'.$page->coach_license.'"/>';
+                echo '<input type="hidden" name="second_coach" value="'.$page->second_coach.'"/>';
+                echo '<input type="hidden" name="masseur" value="'.$page->masseur.'"/>';
+                echo '<input type="hidden" name="doctor" value="'.$page->doctor.'"/>';
+                echo '<tr><td class="button_team_cell"><input type="submit" name="edit_team" class="team_button" value = "Edytuj"/></td></tr>';
+                echo '<tr><td class="button_team_cell"><input type="submit" name="delete" class="team_button" value = "Usuń"/></td></tr>';
+                echo '<tr><td class="button_team_cell"><input type="submit" name="add_player" class="team_button" value = "Dodaj zawodnika"/></td></tr>';
+                echo '<tr><td class="button_team_cell"><input type="submit" name="generate_raport" class="team_button" value = "Generuj protokół"/></td></tr>';
+                echo '</form>';
+                echo '</table><br/><br/>';
+
+                
+                if ( $team_results > 0 )
+                {
+                    printPlayers( $page->id );
+                }
+                $team_num++;
             }
         }
+        
+        
     }
 
     function addTeam() {
@@ -325,7 +339,7 @@ if ( is_user_logged_in() ){
             echo '<p style="color:red;"><strong><span>'.$error_team.'</span></strong></p>';
             echo '<br /><br />Nazwa klubu<input type="text" name="club" value="'.$insert_club.'"  maxlength="50"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_club.'</span></strong></p>';
-            echo '<br /><br />Podaj imie i nazwisko trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie trenera<input type="text" name="coach" value="'.$insert_coach.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_coach.'</span></strong></p>';
             echo '<br /><br />Podaj numer licencji trenera 9 cyfr<input type="text" name="coach_license" value="'.$insert_license.'" minlength="9" maxlength="9"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_license.'</span></strong></p>';
@@ -335,12 +349,14 @@ if ( is_user_logged_in() ){
             echo '<p style="color:red;"><strong><span>'.$error_masseur.'</span></strong></p>';
             echo '<br /><br />Podaj nazwisko i imie lekarza<input type="text" name="doctor" value="'.$insert_doctor.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_doctor.'</span></strong></p>';
-            echo '<br /><br />Podaj imie i nazwisko menagera<input type="text" name="manager" value="'.$insert_manager.'"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie menagera<input type="text" name="manager" value="'.$insert_manager.'"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_manager.'</span></strong></p>';
-            echo '<br /><br />kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
+            echo '<br /><br />Podaj nazwisko i imie kierownika<input type="text" name="director" value="'.$insert_director.'" maxlength="22"/> <br />';
             echo '<p style="color:red;"><strong><span>'.$error_director.'</span></strong></p>';
-            echo '<input type="submit" name="confirm_edit_team" class="button" value = "Potwierdz wprowadzone zmiany"/>';
-            echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
+            echo '<table id="tab_team">';
+            echo '<tr><td><input type="submit" name="confirm_edit_team" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';
+            echo '<tr><td><input type="submit" name="cancel_refresh" class="team_button" value = "Anuluj"/></td></tr>';
+            echo '</table>'; 
             echo '</form>';
         }
     }
@@ -394,13 +410,23 @@ if ( is_user_logged_in() ){
     }
 
     function deleteTeam() {
-        $id_team = $id = $_POST['id'];
         echo '<form method="post">';
-        echo '<input type="hidden" name="id" value="'.$id_team.'"/>';
+        echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
         echo '<table><tr>
                 <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
-                <td><input type="submit" name="confirm_delete_team" class="button" value = "Usuń"/>
-                    <input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/></td>
+                <td class="button_del_cell"><input type="submit" name="confirm_delete_team" class="del_button" value = "Usuń"/></td>
+                <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
+            </tr></table>';
+        echo '</form>';
+    }
+
+    function doubleDeleteTeam() {
+        echo '<form method="post">';
+        echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+        echo '<table><tr>
+                <td>Usunięcie drużyny, jest nieodwracalne, usuwając drużynę stracisz wszystkich zawodników</td> 
+                <td class="button_del_cell"><input type="submit" name="double_confirm_delete_team" class="del_button" value = "Usuń"/></td>
+                <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
             </tr></table>';
         echo '</form>';
     }
@@ -534,6 +560,16 @@ if ( is_user_logged_in() ){
                     $surname_error = $_SESSION['error_surname'].'</br>';
                 }
             }
+            echo "end: ".date("YYYY-MM-DD", strtotime( checkInjection( $insert_date )))."</br>";
+            echo "str: ".strtotime( checkInjection( $insert_date ))."</br>";
+            echo "check: ".checkInjection( $insert_date )."</br>";
+            echo "date: ".$insert_date."</br>";
+            $date_xx = str_replace('/', '-', $insert_date );
+            $date_x = str_replace('/', '-', checkInjection( $insert_date ));
+            echo "date_xx: ".$date_xx."</br>";
+            echo "date_x: ".$date_x."</br>";
+            echo "end: ".strtotime( $date_x )."</br>";
+            echo "end_x: ".date('Y-m-d', strtotime( $date_xx ))."</br>";
 
             echo '<form method="post">';
             echo '<input type="hidden" name="player_id" value="'.$_POST['player_id'].'"/>';
@@ -543,7 +579,7 @@ if ( is_user_logged_in() ){
             echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
             echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                                 Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
-            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("Y-m-d", strtotime( checkInjection( $insert_date ))).'"/> <br />';
+            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("YYYY-MM-DD", strtotime( checkInjection( $insert_date ))).'"/> <br />';
             echo '<input type="submit" name="confirm_edit_player" class="button" value = "Potwierdz wprowadzone zmiany"/>';
             echo '<input type="submit" name="cancel_refresh" class="button" value = "Anuluj"/>';
             echo '</form>';
@@ -595,6 +631,30 @@ if ( is_user_logged_in() ){
         echo '</form>';
     }
 
+    // function deleteTeam() {
+    //     echo '<form method="post">';
+    //     echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+    //     echo '<table><tr>
+    //             <td>Jesteś pewien że chcesz usunąć drużynę ze wszystkimi zawodnikami?</td> 
+    //             <td class="button_del_cell"><input type="submit" name="confirm_delete_team" class="del_button" value = "Usuń"/></td>
+    //             <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
+    //         </tr></table>';
+    //     echo '</form>';
+    // }
+
+    // function doubleDeleteTeam() {
+    //     echo '<form method="post">';
+    //     echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+    //     echo '<table><tr>
+    //             <td>Usunięcie drużyny, jest nieodwracalne, usuwając drużynę stracisz wszystkich zawodników</td> 
+    //             <td class="button_del_cell"><input type="submit" name="double_confirm_delete_team" class="del_button" value = "Usuń"/></td>
+    //             <td class="button_del_cell"><input type="submit" name="cancel_refresh" class="del_button" value = "Anuluj"/></td>
+    //         </tr></table>';
+    //     echo '</form>';
+    // }
+
+
+
     function confirmDeletePlayer() {
         global $wpdb;
         $table_name = 'project_x_trener_team'; 
@@ -630,110 +690,123 @@ if ( is_user_logged_in() ){
     }
 
     function printBasePlayers( $players_results ) {
-        global $base_players_numbers;
-        $base_players_num = 1;
-
-        echo '<table class="tab_base_player">';
-        echo '<tr><td><p style="text-align:center"><strong><span style="font-size:24px">Skład podstawowy</span></strong></p></td></tr>';
-
+        global $reserve_players_numbers;
+        echo '<table id="tab_player">';
+        echo '<tr><td><p>Skład podstawowy</p></td></tr>'; 
         echo '<tr><td>';
+        $move_to_reserve_button = '';
+        if ( $reserve_players_numbers < 7 ) {
+            $move_to_reserve_button = '<input type="submit" name="add_to_reserve_team" class="button_move_to" value = "Przenieś do rezerwy"/>';
+        } else {
+            $move_to_reserve_button = '<input type="submit" name="add_to_reserve_team_off" class="button_move_to_off" value = "Przenieś do rezerwy"/>';
+        }
         foreach ( $players_results as $player ) {
-            if ( $player->category == 'base' ) {
-                echo '<table class="single_tab_base_payer">';
-                echo '<form method="post">';
-                //echo '<tr><td class="player_num_cell" >'.$base_players_num++.'</td><td class="tshirt_cell" >'.$player->tshirt_number.'</td></tr>';
-                echo '<tr>
-                        <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
-                        <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
-                        
-                      </tr>';
-                echo '<tr>
-                        <td colspan="2" class="dob_cell" >'.$player->dob.'</td>
-                        <td colspan="2" class="edit_cell" ><input type="submit" name="edit_player" class="button_edit" value = "Edytuj"/>
-                                                           <input type="submit" name="delete_player" class="button_delete" value = "Usuń"/></td>
-                        <td colspan="3" class="move_to_cell" ><input type="submit" name="del_from_base_team" class="button_move_to" value = "Przenieś do pozostali"/>
-                                                              <input type="submit" name="add_to_reserve_team" class="button_move_to" value = "Przenieś do rezerwy"/></td>
-                      </tr>';
-                echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
-                echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
-                echo '</form>';
-                echo '</table>';
-            }
+            echo '<table class="single_tab_base_payer">';
+            echo '<form method="post">';
+            echo '<tr>
+                    <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
+                    <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
+                    
+                    </tr>';
+            echo '<tr>
+                    <td colspan="2" class="dob_cell" >'.$player->dob.'</td>
+                    <td colspan="2" class="edit_cell" ><input type="submit" name="edit_player" class="button_edit" value = "Edytuj"/>
+                                                        <input type="submit" name="delete_player" class="button_delete" value = "Usuń"/></td>
+                    <td colspan="3" class="move_to_cell" ><input type="submit" name="del_from_base_team" class="button_move_to" value = "Przenieś do pozostali"/>
+                                                            '.$move_to_reserve_button.'</td>
+                    </tr>';
+            echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
+            echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+            echo '</form>';
+            echo '</table>';
             
         }
         echo '</td></tr>';
-        echo'</br>';
         echo '</table>';
-        $base_players_numbers = $base_players_num;
+        echo'</br>';
+        echo'</br>';
     }
 
     function printReservePlayers( $players_results ) {
-        global $reserve_players_numbers;
-        $reserve_players_num = 1;
-        echo'<p style="text-align:center"><strong><span style="font-size:24px">Skład rezerwowy</span></strong></p>';
-        echo '<table>
-                <tr><td>   </td><td>Numer </br>koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data </br>urodzenia</td><td>   </td><td>   </td><td>   </td></tr>';
-            foreach ( $players_results as $player )
-            {
-                if ( $player->category == 'reserve' )
-                {
-                    echo '<tr><form method="post">
-                            <td>'.$reserve_players_num++.'</td>
-                            <td>'.$player->tshirt_number.'</td>
-                            <td>'.$player->name.'</td>
-                            <td>'.$player->surname.'</td>
-                            <td>'.$player->dob.'</td>
-                            <input type="hidden" name="player_id" value="'.$player->id.'"/>
-                            <input type="hidden" name="id" value="'.$_POST['id'].'"/>
-                            <td><input type="submit" name="edit_player" class="button" value = "Edytuj"/></td>
-                            <td><input type="submit" name="delete_player" class="button" value = "Usuń"/></td>
-                            <td><input type="submit" name="del_from_reserve_team" class="button" value = "Usuń ze składu rezerwowego"/></td>
-                        
-                        </form></tr>';
-                }
-            }
+        global $base_players_numbers;
+        echo '<table id="tab_player">';
+        echo '<tr><td><p>Skład rezerwowy</p></td></tr>';
+        echo '<tr><td>';
+        $move_to_base_button = '';
+        if ( $base_players_numbers < 11 ) {
+            $move_to_base_button = '<input type="submit" name="add_to_base_team" class="button_move_to" value = "Przenieś do podstawy"/>';
+        } else {
+            $move_to_base_button = '<input type="submit" name="add_to_base_team_off" class="button_move_to_off" value = "Przenieś do podstawy"/>';
+        }
+        foreach ( $players_results as $player ) {
+            echo '<table class="single_tab_base_payer">';
+            echo '<form method="post">';
+            echo '<tr>
+                    <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
+                    <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
+                    
+                    </tr>';
+            echo '<tr>
+                    <td colspan="2" class="dob_cell" >'.$player->dob.'</td>
+                    <td colspan="2" class="edit_cell" ><input type="submit" name="edit_player" class="button_edit" value = "Edytuj"/>
+                                                        <input type="submit" name="delete_player" class="button_delete" value = "Usuń"/></td>
+                    <td colspan="3" class="move_to_cell" >'.$move_to_base_button.'
+                                                            <input type="submit" name="del_from_base_team" class="button_move_to" value = "Przenieś do pozostali"/>
+                                                            </td>
+                    </tr>';
+            echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
+            echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+            echo '</form>';
+            echo '</table>';
+            
+        }
+        echo '</td></tr>';
         echo '</table>';
         echo'</br>';
-        $reserve_players_numbers = $reserve_players_num;
+        echo'</br>';
     }
 
     function printOthersPlayers($players_results) {
         global $base_players_numbers;
         global $reserve_players_numbers;
-        $others_players = 1;
-        echo'<p style="text-align:center"><strong><span style="font-size:24px">Pozostali</span></strong></p>';
-        echo '<table><tr><td>   </td><td>Numer </br>koszulki</td><td>Imie</td><td>Nazwisko</td><td>Data </br>urodzenia</td><td>   </td><td>   </td>';
-        if ( $base_players_numbers <= 11 )
-        {
-            echo '<td></td>';
+        echo '<table id="tab_player">';
+        echo '<tr><td><p>Pozostali</p></td></tr>';
+        echo '<tr><td>';
+        $move_to_base_button = '';
+        if ( $base_players_numbers < 11 ) {
+            $move_to_base_button = '<input type="submit" name="add_to_base_team" class="button_move_to" value = "Przenieś do podstawy"/>';
+        } else {
+            $move_to_base_button = '<input type="submit" name="add_to_base_team_off" class="button_move_to_off" value = "Przenieś do podstawy"/>';
         }
-        if ( $reserve_players_numbers <= 7 )
-        {
-            echo '<td></td>';
+        $move_to_reserve_button = '';
+        if ( $reserve_players_numbers < 7 ) {
+            $move_to_reserve_button = '<input type="submit" name="add_to_reserve_team" class="button_move_to" value = "Przenieś do rezerwy"/>';
+        } else {
+            $move_to_reserve_button = '<input type="submit" name="add_to_reserve_team_off" class="button_move_to_off" value = "Przenieś do rezerwy"/>';
         }
-        echo '</tr>';
         foreach ( $players_results as $player )
         {
-            if ( $player->category != 'reserve' && $player->category != 'base')
-            {
-                echo '<tr><form method="post"><td>'.$others_players++.'</td><td>'.$player->tshirt_number.'</td><td>'.$player->name.'</td><td>'.$player->surname.'</td><td>'.$player->dob.'</td>';
-                echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
-                echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
-                echo '<td><input type="submit" name="edit_player" class="button" value = "Edytuj"/></td>';
-                echo '<td><input type="submit" name="delete_player" class="button" value = "Usuń"/></td>';
-                if ( $base_players_numbers <= 11 )
-                {
-                    echo '<td><input type="submit" name="add_to_base_team" class="button" value = "Dodaj do podstawowego"/></td>';
-                }
-                if ( $reserve_players_numbers <= 7 )
-                {
-                    echo '<td><input type="submit" name="add_to_reserve_team" class="button" value = "Dodaj do rezerwowego"/></td></tr>';
-                }
-                echo '</form>';
-            }
-            
+            echo '<table class="single_tab_base_payer">';
+            echo '<form method="post">';
+            echo '<tr>
+                    <td colspan="1" class="tshirt_cell" ><div class="tshirt_text">'.$player->tshirt_number.'</div></td>
+                    <td colspan="6" class="name_surname_cell" ><div class="name_text">'.$player->name.' '.$player->surname.'</div></td>
+                    
+                    </tr>';
+            echo '<tr>
+                    <td colspan="2" class="dob_cell" >'.$player->dob.'</td>
+                    <td colspan="2" class="edit_cell" ><input type="submit" name="edit_player" class="button_edit" value = "Edytuj"/>
+                                                        <input type="submit" name="delete_player" class="button_delete" value = "Usuń"/></td>
+                    <td colspan="3" class="move_to_cell" >'.$move_to_base_button.$move_to_reserve_button.'</td>
+                    </tr>';
+            echo '<input type="hidden" name="player_id" value="'.$player->id.'"/>';
+            echo '<input type="hidden" name="id" value="'.$_POST['id'].'"/>';
+            echo '</form>';
+            echo '</table>';
         }
+        echo '</td></tr>';
         echo '</table>';
+        echo'</br>';
         echo'</br>';
     }
 
@@ -829,8 +902,11 @@ if ( is_user_logged_in() ){
                              
                       ), 
                       array( 'id' => $_POST['player_id'] ) );
+        $_POST = array();
         refresh();
-        printPlayers( $_POST['id'] );
+        
+        //printPlayers( $_POST['id'] );
+        //header("Refresh:0");
     }
 
     function deletePlayerFromReserveTeam( ) {
@@ -845,8 +921,10 @@ if ( is_user_logged_in() ){
                              
                       ), 
                       array( 'id' => $_POST['player_id'] ) );
+        $_POST = array();
         refresh();
-        printPlayers( $_POST['id'] );
+        //printPlayers( $_POST['id'] );
+        //header("Refresh:0");
     }
 
     function addPlayerToBaseTeam( ) {
@@ -861,8 +939,10 @@ if ( is_user_logged_in() ){
                              
                       ), 
                       array( 'id' => $_POST['player_id'] ) );
+        $_POST = array();
         refresh();
-        printPlayers( $_POST['id'] );
+        //printPlayers( $_POST['id'] );
+        //header("Refresh:0");
     }
 
     function addPlayerToReserveTeam( ) {
@@ -877,8 +957,10 @@ if ( is_user_logged_in() ){
                              
                       ), 
                       array( 'id' => $_POST['player_id'] ) );
+        $_POST = array();
         refresh();
-        printPlayers( $_POST['id'] );
+        //printPlayers( $_POST['id'] );
+        //header("Refresh:0");
     }
 
     function isAlphabet( $text, $name, $is_space_char = false, $is_line = false , $is_num = false ) {
@@ -1032,6 +1114,8 @@ if ( is_user_logged_in() ){
                 confirmEditPlayer();
             }
         } else if(isset($_POST['confirm_delete_team'])) {
+            doubleDeleteTeam();
+        } else if(isset($_POST['double_confirm_delete_team'])) {
             confirmDeleteTeam( $team_results );
         } else if(isset($_POST['confirm_delete_player'])) {
             confirmDeletePlayer();
@@ -1043,6 +1127,8 @@ if ( is_user_logged_in() ){
             editPlayer();
         } else if(isset($_POST['delete_player'])) {
             deletePlayer();
+        } else if(isset($_POST['delete'])) {
+            deleteTeam();
         } else if( !isset($_POST['generate_raport']) && 
             !isset($_POST['generate_raport_to_pdf']) && 
             !isset($_SESSION) ) {
@@ -1050,17 +1136,15 @@ if ( is_user_logged_in() ){
             teamConditionsCreate( $team_results );
         }
         
-        if(isset($_POST['delete'])) {
-            deleteTeam();
-        }
+        
         
         
         if(isset($_POST['cancel_refresh'])) {
             unset($_SESSION);
-            refresh();
+            //refresh();
         }
         if(isset($_POST['cancel_generate_raport_to_pdf'])) {
-            refresh();
+            //refresh();
         }
         if(isset($_POST['generate_raport']) ) {
             generateRaportSummary();
@@ -1079,6 +1163,7 @@ if ( is_user_logged_in() ){
         }
     }
     buttonsConditions( $team_results );
+    //header("Refresh:0");
 }
 
 ?>

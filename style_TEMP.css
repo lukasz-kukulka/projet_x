@@ -1,0 +1,370 @@
+  
+
+
+/* CSS */
+.button-82-pushable {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-82-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: hsl(0deg 0% 0% / 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  transition:
+    transform
+    600ms
+    cubic-bezier(.3, .7, .4, 1);
+}
+
+.button-82-edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(
+    to left,
+    hsl(340deg 100% 16%) 0%,
+    hsl(340deg 100% 32%) 8%,
+    hsl(340deg 100% 32%) 92%,
+    hsl(340deg 100% 16%) 100%
+  );
+}
+
+.button-82-front {
+  display: block;
+  position: relative;
+  padding: 12px 27px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  color: white;
+  background: hsl(345deg 100% 47%);
+  will-change: transform;
+  transform: translateY(-4px);
+  transition:
+    transform
+    600ms
+    cubic-bezier(.3, .7, .4, 1);
+}
+
+@media (min-width: 768px) {
+  .button-82-front {
+    font-size: 1.25rem;
+    padding: 12px 42px;
+  }
+}
+
+.button-82-pushable:hover {
+  filter: brightness(110%);
+  -webkit-filter: brightness(110%);
+}
+
+.button-82-pushable:hover .button-82-front {
+  transform: translateY(-6px);
+  transition:
+    transform
+    250ms
+    cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.button-82-pushable:active .button-82-front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+}
+
+.button-82-pushable:hover .button-82-shadow {
+  transform: translateY(4px);
+  transition:
+    transform
+    250ms
+    cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.button-82-pushable:active .button-82-shadow {
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+.button-82-pushable:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* input[type=button], input[type=submit], input[type=reset] {
+    background-color: grey;
+    border: 12px;
+    border-color: white;
+    color: black;
+    padding: 2px 4px;
+    width: 10%;
+    height: 10%;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+  } */
+
+  table.tab_base_payer {
+    width: 100%;
+    display: flex;
+    border-spacing: 30px;
+    padding: 20px;
+  }
+  
+  table.single_tab_base_payer {
+    border-color: red;
+    border-style: none ;
+    width: 280px;
+    height: 80px;
+    text-align: center;
+    color: black;
+    display: inline-block;
+    vertical-align: top;
+    table-layout: fixed;
+    border-spacing: 25px 25px;
+    padding: 10px;
+  }
+  
+  .tshirt_cell {
+    background-image: url("/portal/project_x_images/tshirt.png");
+    background-repeat: no-repeat;
+    border-style: none ;
+    background-size: 100%;
+    height: 40px;
+    width: 40px;
+    border-color: green;
+    padding: 5px;
+  }
+  
+  .name_surname_cell {
+    background-image: url("/portal/project_x_images/name_surname.png");
+    background-color: #64ff64;
+    background-repeat: no-repeat;
+    background-position:right 1px;
+    border-style: none ;
+    background-size: 100%;
+    height: 40px;
+    font-size: 12px;
+    width: 240px;
+    border-color: green;
+  }
+  
+  .dob_cell {
+    background-image: url("/portal/project_x_images/dob.png");
+    background-repeat: no-repeat;
+    background-color: #64ff64;
+    background-attachment: fixed;
+    background-position: center;
+    border-style: none ;
+    background-size: 100%;
+    height: 40px;
+    font-size: 12px;
+    width: 80px;
+    border-color: green;
+  }
+  
+  .edit_cell {
+    background-color: #64ff64;
+    border-style: none ;
+    height: 40px;
+    width: 80px;
+    border-color: green;
+  }
+  
+  /* .delete_cell {
+    background-color: #64ff64;
+    border-style: none ;
+    height: 35px;
+    width: 80px;
+    border-color: green;
+  } */
+  
+  .move_to_cell {
+    background-color: #64ff64;
+    border-style: none ;
+    height: 40px;
+    width: 120px;
+    border-color: green;
+  }
+  
+  /* .move_to_cell {
+    background-image: url("/portal/project_x_images/move_to.png");
+    background-size: 100%;
+    height: 40px;
+    width: 80px;
+    border-color: green;
+  } */
+  
+  /* input.button_move_to {
+    background-color: #00FF00; 
+    color: black;
+    height: 34px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    border-radius: 12px;
+    border: 2px solid #003300;
+    white-space: normal;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  } 
+  
+  input.button_move_to:hover {
+    background-color: #003300; 
+    scale: 1.1;
+  } */
+  
+  /* input.button_edit {
+    background-color: #00BBFF; 
+    color: black;
+    height: 15px;
+    width: 70px;
+    position: relative;
+    left: 0px;
+    top: -6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 1px;
+    border: 1px solid #000055;
+    white-space: normal;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  } 
+  
+  input.button_edit:hover {
+    background-color: #000080; 
+    scale: 1.1;
+  } */
+  
+  /* input.button_delete {
+    background-color: #FF6666; 
+    color: black;
+    height: 15px;
+    width: 70px;
+    position: relative;
+    left: 0px;
+    top: -8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 1px;
+    border: 1px solid #550000;
+    white-space: normal;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  } 
+  
+  input.button_delete:hover {
+    background-color: #800000; 
+    scale: 1.1;
+  } */
+  
+  /* .button_move_to {
+    background-color: #008000; 
+    border: none;
+    color: white;
+    height: 17px;
+    width: 100px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+    border-radius: 5px;
+    border: 2px solid #003300;
+  }
+  
+  input.button_move_to:active {
+  
+  } */
+  
+  /* .name_cell {
+    background-image: url("/portal/project_x_images/player_name.png");
+    background-size: 100%;
+    height: 40px;
+    width: 200px;
+    border-color: green;
+    
+  }
+  
+  .surname_cell {
+    background-image: url("/portal/project_x_images/player_surname.png");
+    background-size: 100%;
+    height: 40px;
+    width: 200px;
+    border-color: green;
+  }
+  
+  .dob_cell {
+    background-image: url("/portal/project_x_images/player_dob.png");
+    background-size: 100%;
+    height: 40px;
+    width: 200px;
+    border-color: green;
+  }
+  
+  .edit_button_cell {
+    background-image: url("/portal/project_x_images/edit_button.png");
+    background-size: 100%;
+    height: 40px;
+    width: 67px;
+    border-color: green;
+  }
+  
+  .delete_button_cell {
+    background-image: url("/portal/project_x_images/delete_button.png");
+    background-size: 100%;
+    height: 40px;
+    width: 67px;
+    border-color: green;
+  }
+  
+  .move_button_cell {
+    background-image: url("/portal/project_x_images/move_button.png");
+    background-size: 100%;
+    height: 40px;
+    width: 67px;
+    border-color: green;
+  } */
+
+
+  a.button7{
+    display:inline-block;
+    padding:0.7em 1.7em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:400;
+    color:#FFFFFF;
+    background-color:#3369ff;
+    box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+    text-align:center;
+    position:relative;
+    }
+    a.button7:active{
+    box-shadow:inset 0 0.6em 2em -0.3em rgba(0,0,0,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+    }
+    @media all and (max-width:30em){
+    a.button7{
+    display:block;
+    margin:0.4em auto;
+    }
+  } 
