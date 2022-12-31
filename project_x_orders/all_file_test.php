@@ -1,9 +1,21 @@
 <?php
 
-//include 'project_x_style_test.css';
 require('project_x_style_test.php');
 
-if ( is_user_logged_in() ){ 
+global $current_user;
+wp_get_current_user();
+
+if ( $current_user->user_login == "Nanautzin" || $current_user->user_login == "Gotran" ) {
+    echo '<center><h1><a href="/test-trener-panel.php">Test PANEL</a></h1></center>';
+}
+
+if ( ! is_user_logged_in() ) {
+    ?>
+        <script type="text/javascript">
+            location.href="/wp-login.php";
+        </script>
+    <?php
+} else { 
 
     $base_players_numbers = 0;
     $reserve_players_numbers = 0;
@@ -39,11 +51,6 @@ if ( is_user_logged_in() ){
         $month = $date[3].$date[4];
         $year = $date[6].$date[7];
 
-        // echo "DATE: ".$date."</br>";
-        // echo "DAY: ".$day."</br>";
-        // echo "Month: ".$month."</br>";
-        // echo "Year: ".$year."</br>";
-        
         if( (int)($year) > (int)date("y") ) {
             $year = "19".$year;
         } else {
