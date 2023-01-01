@@ -34,6 +34,24 @@ if ( is_user_logged_in() ){
 
     }
 
+    function generateDateForInputForm( $date ) {
+        $day = $date[0].$date[1];
+        $month = $date[3].$date[4];
+        $year = $date[6].$date[7];
+
+        // echo "DATE: ".$date."</br>";
+        // echo "DAY: ".$day."</br>";
+        // echo "Month: ".$month."</br>";
+        // echo "Year: ".$year."</br>";
+        
+        if( (int)($year) > (int)date("y") ) {
+            $year = "19".$year;
+        } else {
+            $year = "20".$year;
+        }
+        return $year."-".$month."-".$day;
+    }
+
     function getTeamResult() {
         global $wpdb;
         $user = wp_get_current_user()->display_name;
@@ -462,7 +480,7 @@ if ( is_user_logged_in() ){
         $insert_name = "";
         $insert_surname = "";
         $insert_tshirt = 0;
-        $insert_date = date('d/m/y');
+        $insert_date = date('Y-m-d');
         $id_team = $_POST['id'];
         $name_error = "";
         $surname_error = "";
@@ -550,6 +568,7 @@ if ( is_user_logged_in() ){
             $insert_surname = $player->surname;
             $insert_tshirt = $player->tshirt_number;
             $insert_date = $player->dob;
+            //$insert_date = str_replace( "/" ,"-", $insert_date );
             $name_error = "";
             $surname_error = "";
             if ( isset( $_SESSION ) ) {
@@ -564,17 +583,14 @@ if ( is_user_logged_in() ){
                     $surname_error = $_SESSION['error_surname'].'</br>';
                 }
             }
-            echo "end: ".date("YYYY-MM-DD", strtotime( checkInjection( $insert_date )))."</br>";
-            echo "str: ".strtotime( checkInjection( $insert_date ))."</br>";
-            echo "check: ".checkInjection( $insert_date )."</br>";
-            echo "date: ".$insert_date."</br>";
-            $date_xx = str_replace('/', '-', $insert_date );
-            $date_x = str_replace('/', '-', checkInjection( $insert_date ));
-            echo "date_xx: ".$date_xx."</br>";
-            echo "date_x: ".$date_x."</br>";
-            echo "end: ".strtotime( $date_x )."</br>";
-            echo "end_x: ".date('Y-m-d', strtotime( $date_xx ))."</br>";
-
+            
+            // echo "begin: ".checkInjection( $insert_date )."</br>";
+            // //echo "mid: ".strtotime( checkInjection( $insert_date ))."</br>";
+            // echo date( )."</br>";
+            // echo "full: ".date("y-m-d", checkInjection( $insert_date ))."</br>";
+            // echo "full: ".date("d-m-Y", checkInjection( $insert_date ))."</br>";
+            //echo "NEW: ".generateDateForInputForm( $insert_date )."</br>";
+            
             echo '<form method="post">';
             echo '<input type="hidden" name="player_id" value="'.$_POST['player_id'].'"/>';
             echo '<br /><br />Imię gracza<input type="text" name="player_name" value="'.$insert_name.'" maxlength="15" size="50"/> <br />';
@@ -583,7 +599,10 @@ if ( is_user_logged_in() ){
             echo'<p style="color:red;"><strong><span>'.$surname_error.'</span></strong></p>';
             echo '<br /><br />Numer koszulki<input style="color:black" type="number" name="tshirt_number" min="00" max="99" value="'.$insert_tshirt.'" size="10"/> 
                                 Pozostaw zero jeżeli nie znasz numeru koszulki <br />';
-            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.date("YYYY-MM-DD", strtotime( checkInjection( $insert_date ))).'"/> <br />';
+
+
+                               // '.date("Y-m-d", strtotime('+1 days')).'
+            echo '<br /><br />Data urodzenia: <input style="color:black" type="date" name="dob_player" value="'.generateDateForInputForm( $insert_date ).'"/> <br />';
             
             echo '<table id="tab_team">';
             echo '<tr><td><input type="submit" name="confirm_edit_player" class="team_button" value = "Potwierdz wprowadzone zmiany"/></td></tr>';

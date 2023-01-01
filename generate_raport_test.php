@@ -305,8 +305,9 @@ function printDirector() {
 
 function printDate() {
     global $pdf;
-    $date = $_POST['event_date'];
-    $date = date("d-m-y");
+    $date = date("d-m-y", strtotime( $_POST['event_date'] ));
+    // $date = $_POST['event_date'];
+    // $date = date("d-m-y");
     $begin_pos_y = 30;
     $begin_pos_x = 44.5;
     $between_char_spacing = 5.3;
