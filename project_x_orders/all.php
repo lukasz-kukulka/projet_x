@@ -12,7 +12,7 @@ if ( $current_user->user_login == "Nanautzin" || $current_user->user_login == "G
 if ( ! is_user_logged_in() ) {
     ?>
         <script type="text/javascript">
-            location.href="/wp-login.php";
+            location.href="../wp-login.php";
         </script>
     <?php
 } else { 
