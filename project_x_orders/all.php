@@ -61,7 +61,7 @@ if ( ! is_user_logged_in() ) {
 
     function getTeamResult() {
         global $wpdb;
-        $user = wp_get_current_user()->display_name;
+        $user = wp_get_current_user()->user_login;
         $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `creator` = %s", $user );
         $results = $wpdb->get_results($query);
         return $results;
@@ -219,7 +219,7 @@ if ( ! is_user_logged_in() ) {
             }
         }
 
-        $user = wp_get_current_user()->display_name;
+        $user = wp_get_current_user()->user_login;
         echo '<form method="post">';
         echo '<br /><br />Nazwa drużyny<input type="text" name="team" value="'.$insert_team.'" maxlength="50"/> <br />';
         echo'<p style="color:red;"><strong><span>'.$error_team.'</span></strong></p>';
@@ -247,7 +247,7 @@ if ( ! is_user_logged_in() ) {
         global $wpdb;
         $table_name =  'project_x_team'; 
         $results_before = count ( getTeamResult() );
-        $user = wp_get_current_user()->display_name;
+        $user = wp_get_current_user()->user_login;
         $date = date('Y-m-d H:i:s');
         $coach = $user;
         if ( isset($_POST['coach']) ) {
@@ -406,7 +406,7 @@ if ( ! is_user_logged_in() ) {
                       array( 'id' => $_POST['id'] ) );
         unset( $_SESSION );
         global $wpdb;
-        $user = wp_get_current_user()->display_name;
+        $user = wp_get_current_user()->user_login;
         $query = $wpdb->prepare("SELECT * FROM `project_x_team` WHERE `id` = %s", $_POST['id']  );
         $teams_results = $wpdb->get_results($query);
         $button_name = "cancel_refresh";

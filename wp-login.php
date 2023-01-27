@@ -1094,11 +1094,22 @@ switch ( $action ) {
 			</p>
 			<br class="clear" />
 			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+			<input type="checkbox" name="regulamin" id="regulamin" placeholder="regulamin" required/>
+				<label>Przeczytałem i w pełni akceptuje regulamin, <a href="http://v119576.wirt23.bhlink.pl/portal/regulamin/" target="_blank"><h3 style="color:Red;">REGULAMIN</h3>.</a> </label><br>
 			<p class="submit">
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Register' ); ?>" />
 			</p>
 		</form>
-
+		<script>
+			var form = document.getElementById("registerform");
+			form.addEventListener("submit", function(event) {
+				var zgoda = document.getElementById("regulamin");
+				if (!regulamin.checked) {
+				alert("Musisz zaznaczyć, że akceptujesz regulamin");
+				event.preventDefault();
+				}
+			});
+		</script>
 		<p id="nav">
 			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
 				<?php echo esc_html( $login_link_separator ); ?>
